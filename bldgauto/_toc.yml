@@ -1,0 +1,16 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: docs/intro
+parts:
+- caption: Concepts
+  numbered: true
+  chapters:
+  - file: docs/01/concepts
+- caption: Tutorials
+  numbered: true
+  chapters:
+  - file: docs/02/01_opta_tstat
+  - file: docs/02/02_opta_r1000_modbus
+  
