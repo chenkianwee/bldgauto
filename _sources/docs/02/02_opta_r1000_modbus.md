@@ -1,6 +1,6 @@
 # Arduino Opta and Seeed Studio reComputer r1000
 
-## Hardware
+## Hardware and software
 For this tutorial we will need the following hardware
 
 - Arduino Opta Wifi (Can be bought <a href="https://store.arduino.cc/products/opta-wifi?queryID=undefined" target="_blank">here</a>)
@@ -8,10 +8,14 @@ For this tutorial we will need the following hardware
 - Seeed Studio reComputer R1000 series (Can be bought <a href="https://www.seeedstudio.com/reComputer-R1025-10-p-5895.html" target="_blank">here</a>)
 - Power Adaptor for reComputer (Can be bought <a href="https://www.seeedstudio.com/Power-Adapter-12V-2A-EU-p-5732.html" target="_blank">here</a>)
 - Ethernet cable (Can be bought <a href="https://www.adafruit.com/product/5441" target="_blank">here</a>)
+- Monitor, keyboard and mouse for accessing the r1000 computer.
+- Laptop to program Arduino Opta.
 
 We will need the following software
 
 - Arduino IDE (Download it <a href="https://www.arduino.cc/en/software/" target="_blank">here</a>)
+- Install VScode on R1000. Follow instructions <a href="https://code.visualstudio.com/" target="_blank">here</a>.
+- Install pymodbus Python library on R1000. Follow instructions <a href="https://github.com/pymodbus-dev/pymodbus/?tab=readme-ov-file#install" target="_blank">here</a>. 
 
 ## Instructions
 1. Wire your Opta to the R1000 as shown.
@@ -148,12 +152,8 @@ We will need the following software
         }
     }
 ```
-### R1000 software environment
-1. Install VScode. Follow instructions <a href="https://code.visualstudio.com/" target="_blank">here</a>.
 
-2. Install pymodbus Python library. Follow instructions <a href="https://github.com/pymodbus-dev/pymodbus/?tab=readme-ov-file#install" target="_blank">here</a>.  
-
-3. In the Raspberry Pi OS environment configure the wired connection to read from the connected Opta. 
+4. In the Raspberry Pi OS environment configure the wired connection to read from the connected Opta. 
 - Go to the network settings -> Advanced Options -> Edit Connections ...
 - In the network connections window select Wired Connection 1 -> setting symbol
 - In the Editing Wired Connection 1 window go to the IPv4 Settings tab. Change the method to 'Manual'. Click on the Add button and add in the following parameters and save the setting:
@@ -168,7 +168,7 @@ Gateway: 10.0.0.229
 ```
 <br/><br/>
 
-4. In the VSCode environment. Copy and paste the following script to read the Modbus holding register from the Opta. Run the script and you should be switching on and off the LED 1 and relay 1.
+5. In the VSCode environment. Copy and paste the following script to read the Modbus holding register from the Opta. Run the script and you should be switching on and off the LED 1 and relay 1.
 ``` {dropdown} read_opta_modbus
     from enum import Enum
     from time import sleep

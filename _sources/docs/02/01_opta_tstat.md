@@ -1,6 +1,6 @@
 # Arduino Opta and Belimo Thermostat
 
-## Hardware
+## Hardware and software
 For this tutorial we will need the following hardware
 
 - Arduino Opta Wifi (Can be bought <a href="https://store.arduino.cc/products/opta-wifi?queryID=undefined" target="_blank">here</a>)
@@ -9,6 +9,7 @@ For this tutorial we will need the following hardware
 - RS485 cable (Can be bought <a href="https://www.amazon.com/Custom-Cable-Connection-Conductor-Stranded/dp/B0DN8LBHVX/ref=sr_1_9?crid=2EF2MFSKE9GUN&dib=eyJ2IjoiMSJ9.ZAoXBHFAV3jQ649WESWLq7Fblh5kXmKAn1_op-ndrzo37jN83uGhdVz5CY4HlBjQX9DCS-Ay3BZ7cFtt-JEgYeZLjRaJMMP26yjvnQ8zoEum73c-2KSAm87qCudWMXyR7YtPswt5J-ssUUhkjlNT7TtXm6oFdM9Ort6cTMzfElhz7hfXuk8E5avDdm2bNu0bUcXjIR2dtJ0tv0KNl6ZxajMCDLxkTX1-6YbI9sAGEAY.wfyvcxwkvMGA_17ZK3BV3J_2LgEdFHk3WgHqKTdz2SA&dib_tag=se&keywords=rs485%2Bcable%2B3%2Bwire&qid=1746563660&sprefix=rs485%2Bcable%2B3%2Bwire%2Caps%2C71&sr=8-9&th=1" target="_blank">here</a>)
 - USB-C Data Cable (Can be bought <a href="https://www.amazon.com/dp/B087JMJSVC?ref=nb_sb_ss_w_as-reorder_k0_1_16&amp=&crid=3V52YX7OEX7W9&sprefix=usb%2Bc%2Bdata%2Bcable&th=1" target="_blank">here</a>)
 - Phone with NFC enabled.
+- Laptop to program Arduino Opta.
 
 We will need the following software
 

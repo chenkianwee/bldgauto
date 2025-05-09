@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>2. Arduino Opta and Belimo Thermostat &#8212; Building Automation</title>
+    <title>4. Seeed Studio reComputer r1000 and Belimo Thermostat &#8212; Building Automation</title>
   
   
   
@@ -60,11 +60,10 @@
     <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/02/01_opta_tstat';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/02/03_r1000_tstat';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="3. Arduino Opta and Seeed Studio reComputer r1000" href="02_opta_r1000_modbus.html" />
-    <link rel="prev" title="1. Concepts" href="../01/concepts.html" />
+    <link rel="prev" title="3. Arduino Opta and Seeed Studio reComputer r1000" href="02_opta_r1000_modbus.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -168,9 +167,9 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Arduino Opta and Belimo Thermostat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_opta_tstat.html">2. Arduino Opta and Belimo Thermostat</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_opta_r1000_modbus.html">3. Arduino Opta and Seeed Studio reComputer r1000</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03_r1000_tstat.html">4. Seeed Studio reComputer r1000 and Belimo Thermostat</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Seeed Studio reComputer r1000 and Belimo Thermostat</a></li>
 </ul>
 
     </div>
@@ -247,7 +246,7 @@
       
       
       
-      <li><a href="https://github.com/chenkianwee/bldgauto/issues/new?title=Issue%20on%20page%20%2Fdocs/02/01_opta_tstat.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/chenkianwee/bldgauto/issues/new?title=Issue%20on%20page%20%2Fdocs/02/03_r1000_tstat.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -277,7 +276,7 @@
       
       
       
-      <li><a href="../../_sources/docs/02/01_opta_tstat.md" target="_blank"
+      <li><a href="../../_sources/docs/02/03_r1000_tstat.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -353,7 +352,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Arduino Opta and Belimo Thermostat</h1>
+    <h1>Seeed Studio reComputer r1000 and Belimo Thermostat</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -363,9 +362,8 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-and-software">2.1. Hardware and software</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">2.2. Instructions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resource">2.3. Resource</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-and-software">4.1. Hardware and software</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">4.2. Instructions</a></li>
 </ul>
             </nav>
         </div>
@@ -377,36 +375,38 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="arduino-opta-and-belimo-thermostat">
-<h1><span class="section-number">2. </span>Arduino Opta and Belimo Thermostat<a class="headerlink" href="#arduino-opta-and-belimo-thermostat" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="seeed-studio-recomputer-r1000-and-belimo-thermostat">
+<h1><span class="section-number">4. </span>Seeed Studio reComputer r1000 and Belimo Thermostat<a class="headerlink" href="#seeed-studio-recomputer-r1000-and-belimo-thermostat" title="Link to this heading">#</a></h1>
 <section id="hardware-and-software">
-<h2><span class="section-number">2.1. </span>Hardware and software<a class="headerlink" href="#hardware-and-software" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.1. </span>Hardware and software<a class="headerlink" href="#hardware-and-software" title="Link to this heading">#</a></h2>
 <p>For this tutorial we will need the following hardware</p>
 <ul class="simple">
-<li><p>Arduino Opta Wifi (Can be bought <a href="https://store.arduino.cc/products/opta-wifi?queryID=undefined" target="_blank">here</a>)</p></li>
+<li><p>Seeed Studio reComputer R1000 series (Can be bought <a href="https://www.seeedstudio.com/reComputer-R1025-10-p-5895.html" target="_blank">here</a>)</p></li>
+<li><p>Power Adaptor for reComputer (Can be bought <a href="https://www.seeedstudio.com/Power-Adapter-12V-2A-EU-p-5732.html" target="_blank">here</a>)</p></li>
 <li><p>Belimo Thermostat 22RTH 5900RD (Can be bought <a href="https://blackhawksupply.com/products/belimo-22rth-5900d?variant=39943328530528" target="_blank">here</a>)</p></li>
-<li><p>24V power supply x 2 (Can be bought <a href="https://www.amazon.com/dp/B09281KTS8?ref=nb_sb_ss_w_as-reorder_k1_1_5&amp=&crid=2KKGJ6OCSOW31&amp=&sprefix=24+v+" target="_blank">here</a>)</p></li>
+<li><p>24V power supply (Can be bought <a href="https://www.amazon.com/dp/B09281KTS8?ref=nb_sb_ss_w_as-reorder_k1_1_5&amp=&crid=2KKGJ6OCSOW31&amp=&sprefix=24+v+" target="_blank">here</a>)</p></li>
 <li><p>RS485 cable (Can be bought <a href="https://www.amazon.com/Custom-Cable-Connection-Conductor-Stranded/dp/B0DN8LBHVX/ref=sr_1_9?crid=2EF2MFSKE9GUN&dib=eyJ2IjoiMSJ9.ZAoXBHFAV3jQ649WESWLq7Fblh5kXmKAn1_op-ndrzo37jN83uGhdVz5CY4HlBjQX9DCS-Ay3BZ7cFtt-JEgYeZLjRaJMMP26yjvnQ8zoEum73c-2KSAm87qCudWMXyR7YtPswt5J-ssUUhkjlNT7TtXm6oFdM9Ort6cTMzfElhz7hfXuk8E5avDdm2bNu0bUcXjIR2dtJ0tv0KNl6ZxajMCDLxkTX1-6YbI9sAGEAY.wfyvcxwkvMGA_17ZK3BV3J_2LgEdFHk3WgHqKTdz2SA&dib_tag=se&keywords=rs485%2Bcable%2B3%2Bwire&qid=1746563660&sprefix=rs485%2Bcable%2B3%2Bwire%2Caps%2C71&sr=8-9&th=1" target="_blank">here</a>)</p></li>
 <li><p>USB-C Data Cable (Can be bought <a href="https://www.amazon.com/dp/B087JMJSVC?ref=nb_sb_ss_w_as-reorder_k0_1_16&amp=&crid=3V52YX7OEX7W9&sprefix=usb%2Bc%2Bdata%2Bcable&th=1" target="_blank">here</a>)</p></li>
 <li><p>Phone with NFC enabled.</p></li>
-<li><p>Laptop to program Arduino Opta.</p></li>
+<li><p>Monitor, keyboard and mouse for accessing the r1000 computer.</p></li>
 </ul>
 <p>We will need the following software</p>
 <ul class="simple">
-<li><p>Arduino IDE (Download it <a href="https://www.arduino.cc/en/software/" target="_blank">here</a>)</p></li>
+<li><p>Install VScode on R1000. Follow instructions <a href="https://code.visualstudio.com/" target="_blank">here</a>.</p></li>
+<li><p>Install pymodbus Python library on R1000. Follow instructions <a href="https://github.com/pymodbus-dev/pymodbus/?tab=readme-ov-file#install" target="_blank">here</a>.</p></li>
 </ul>
 </section>
 <section id="instructions">
-<h2><span class="section-number">2.2. </span>Instructions<a class="headerlink" href="#instructions" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.2. </span>Instructions<a class="headerlink" href="#instructions" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
-<li><p>Wire your Opta to the thermostat as shown below:</p></li>
+<li><p>Wire your Seeed Studio to the R1000 as shown.</p></li>
 </ol>
-<a class="reference internal image-reference" href="../../_images/opta_tstat1.png"><img alt="../../_images/opta_tstat1.png" class="align-center" src="../../_images/opta_tstat1.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/r1k_tstat1.png"><img alt="../../_images/r1k_tstat1.png" class="align-center" src="../../_images/r1k_tstat1.png" style="width: 100%;" /></a>
 <p><br/><br/></p>
 <ol class="arabic simple" start="2">
 <li><p>The connected devices shown below.</p></li>
 </ol>
-<a class="reference internal image-reference" href="../../_images/opta_tstat2.jpg"><img alt="../../_images/opta_tstat2.jpg" class="align-center" src="../../_images/opta_tstat2.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/r1k_tstat2.jpg"><img alt="../../_images/r1k_tstat2.jpg" class="align-center" src="../../_images/r1k_tstat2.jpg" style="width: 100%;" /></a>
 <p><br/><br/></p>
 <ol class="arabic simple" start="3">
 <li><p>Once connected we need to configure settings on the Belimo thermostat for the connection. Download the ‘Belimo Assistant 2’ app on your NFC enabled phone. Select the NFC option to connect to a device. Follow the instruction to connect to your thermostat. Once connected go to Setup -&gt; Communication. Change the parameters to the following and ‘Write to Device’ through NFC:</p></li>
@@ -421,104 +421,77 @@
 <a class="reference internal image-reference" href="../../_images/opta_tstat3.png"><img alt="../../_images/opta_tstat3.png" class="align-center" src="../../_images/opta_tstat3.png" style="width: 30%;" /></a>
 <p><br/><br/></p>
 <ol class="arabic simple" start="4">
-<li><p>Once configured we need to do some programming on the Arduino Opta. Open the Arduino IDE. Copy and paste the following script onto the IDE and upload it to Opta.</p></li>
+<li><p>In the VSCode environment. Copy and paste the following script to read the air temperature and setpoint temperature from the Belimo thermostat. Run the script and you should be changing the setpoint temperature.</p></li>
 </ol>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
 <summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">read_belimo_tstat</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/**
-Getting started with Opta and Belimo
-Purpose: Read and write registers from Belimo 22rth 5900ud
-@author Kian Wee Chen
-*/
+<span class="sd-summary-text">modbus_rtu</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>from enum import Enum
+import pymodbus.client as ModbusClient
+from pymodbus.pdu import ExceptionResponse
+from pymodbus import (
+    FramerType,
+    ModbusException,
+    pymodbus_apply_logging_config,
+)
+def write_register(client: ModbusClient.ModbusSerialClient, addr: int, value: int) -&gt; None:
+    &quot;&quot;&quot;Write a register.&quot;&quot;&quot;
+    try:
+        # rr = client.write_registers(address=addr, values=[value], slave=1)
+        rr = client.write_register(addr, value)
+        # TODO: cannot figure out why can&#39;t I use write_register instead
+        print(f&quot;write is {rr}, Value = {value}&quot;)
+    except ModbusException as exc:
+        print(f&quot;Modbus exception: {exc!s}&quot;)
+    if rr.isError():
+        print(f&quot;Error&quot;)
+    if isinstance(rr, ExceptionResponse):
+        print(f&quot;Response exception: {rr!s}&quot;)
 
-#include &lt;ArduinoModbus.h&gt;
-#include &lt;ArduinoRS485.h&gt; // ArduinoModbus depends on the ArduinoRS485 library
+def get_data_type(format: str) -&gt; Enum:
+    for data_type in ModbusClient.ModbusSerialClient.DATATYPE:
+        if data_type.value[0] == format:
+            return data_type
 
-constexpr auto baudrate { 38400 };
+port = &#39;/dev/ttyAMA2&#39;
 
-// Calculate preDelay and postDelay in microseconds as per Modbus RTU Specification
-// MODBUS over serial line specification and implementation guide V1.02
-// Paragraph 2.5.1.1 MODBUS Message RTU Framing
-// https://modbus.org/docs/Modbus_over_serial_line_V1_02.pdf
-constexpr auto bitduration { 1.f / baudrate };
-constexpr auto preDelayBR { bitduration * 9.6f * 3.5f * 1e6 };
-constexpr auto postDelayBR { bitduration * 9.6f * 3.5f * 1e6 };
+client = ModbusClient.ModbusSerialClient(
+    port,
+    framer=FramerType.RTU,
+    # timeout=10,
+    # retries=5,
+    baudrate=38400,
+    bytesize=8,
+    parity=&quot;N&quot;,
+    stopbits=2,
+    # handle_local_echo=False,
+    )
 
-int server_id = 1;
-int setpt_addr = 21; //21 is the setpoint temp
-double setpt_scale = 0.01; // according to the belimo thermostat documentation
-int airtemp_addr=0; // 0 is the air temp
-double airtemp_scale = 0.01; // according to the belimo thermostat documentation
+print(&quot;connect to server&quot;)
+client.connect()
 
-void setup() {
-    Serial.begin(9600);
-    while (!Serial);
+data_type_enum = get_data_type(&#39;H&#39;)
+count = data_type_enum.value[1]
 
-    Serial.println(&quot;Modbus RTU Client&quot;);
+try:
+    # See all calls in client_calls.py
+    print(client)
+    rr = client.read_input_registers(address=0, count=count, slave=1)
+    # rr = client.read_holding_registers(address=1, count=count, slave=1)
 
-    RS485.setDelays(preDelayBR, postDelayBR);
+except ModbusException as exc:
+    print(f&quot;Received ModbusException({exc}) from library&quot;)
+    client.close()
 
-    // Start the Modbus RTU client
-    if (!ModbusRTUClient.begin(baudrate, SERIAL_8N2)) {
-        Serial.println(&quot;Failed to start Modbus RTU Client!&quot;);
-        while (1);
-    }
-}
+value = client.convert_from_registers(rr.registers, data_type_enum)
+print(value)
 
-void loop() {
-    int setpt_raw = ModbusRTUClient.holdingRegisterRead(server_id, setpt_addr);
-    if (setpt_raw != -1) {
-    double setpt = setpt_raw * setpt_scale;
-    Serial.println(setpt);
-    if (setpt != 28.0) {
-        // set it to 28
-        int regwrite = ModbusRTUClient.holdingRegisterWrite(server_id, setpt_addr, 2800);
-        if (regwrite == 1) {
-            Serial.println(&quot;Success!&quot;);    
-        } else {
-            Serial.println(&quot;Failed!&quot;);
-        }
-    } else {
-        // if it is equal to 28
-        int regwrite = ModbusRTUClient.holdingRegisterWrite(server_id, setpt_addr, 1800);
-        if (regwrite == 1) {
-            Serial.println(&quot;Success!&quot;);    
-        } else {
-            Serial.println(&quot;Failed!&quot;);
-        }
-    }
-
-    } else {
-        Serial.print(&quot;failed! &quot;);
-        Serial.println(ModbusRTUClient.lastError());
-    }
-
-    int airtemp_raw = ModbusRTUClient.inputRegisterRead(server_id, airtemp_addr);
-    if (airtemp_raw != -1) {
-        double airtemp = airtemp_raw * airtemp_scale;
-        Serial.println(airtemp);
-    } else {
-        Serial.print(&quot;failed! &quot;);
-        Serial.println(ModbusRTUClient.lastError());
-    }
-
-    delay(10000);
-    Serial.println();
-}
+# write to a holding register 
+write_register(client, 21, 2800)
 </pre></div>
 </div>
 </div>
-</details><ol class="arabic simple" start="5">
-<li><p>In the Arduino IDE you will see the script reading the air temperature and set point temperature. It will also be changing the setpoint on the thermostat from 18 degC to 28 degC every 10 seconds.</p></li>
-</ol>
-</section>
-<section id="resource">
-<h2><span class="section-number">2.3. </span>Resource<a class="headerlink" href="#resource" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p><a href="https://docs.arduino.cc/tutorials/opta/getting-started-with-modbus-rtu/" target="_blank">Arduino tutorial on using Modbus RTU</a></p></li>
-</ul>
-</section>
+</details></section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -552,22 +525,13 @@ void loop() {
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../01/concepts.html"
+       href="02_opta_r1000_modbus.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">1. </span>Concepts</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="02_opta_r1000_modbus.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title"><span class="section-number">3. </span>Arduino Opta and Seeed Studio reComputer r1000</p>
       </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -586,9 +550,8 @@ void loop() {
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-and-software">2.1. Hardware and software</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">2.2. Instructions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resource">2.3. Resource</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-and-software">4.1. Hardware and software</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">4.2. Instructions</a></li>
 </ul>
   </nav></div>
 

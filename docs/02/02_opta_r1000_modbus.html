@@ -63,6 +63,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/02/02_opta_r1000_modbus';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="4. Seeed Studio reComputer r1000 and Belimo Thermostat" href="03_r1000_tstat.html" />
     <link rel="prev" title="2. Arduino Opta and Belimo Thermostat" href="01_opta_tstat.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -169,6 +170,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="01_opta_tstat.html">2. Arduino Opta and Belimo Thermostat</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Arduino Opta and Seeed Studio reComputer r1000</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_r1000_tstat.html">4. Seeed Studio reComputer r1000 and Belimo Thermostat</a></li>
 </ul>
 
     </div>
@@ -361,11 +363,8 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware">3.1. Hardware</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">3.2. Instructions</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#r1000-software-environment">3.2.1. R1000 software environment</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-and-software">3.1. Hardware and software</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">3.2. Instructions</a></li>
 </ul>
             </nav>
         </div>
@@ -379,8 +378,8 @@
                   
   <section class="tex2jax_ignore mathjax_ignore" id="arduino-opta-and-seeed-studio-recomputer-r1000">
 <h1><span class="section-number">3. </span>Arduino Opta and Seeed Studio reComputer r1000<a class="headerlink" href="#arduino-opta-and-seeed-studio-recomputer-r1000" title="Link to this heading">#</a></h1>
-<section id="hardware">
-<h2><span class="section-number">3.1. </span>Hardware<a class="headerlink" href="#hardware" title="Link to this heading">#</a></h2>
+<section id="hardware-and-software">
+<h2><span class="section-number">3.1. </span>Hardware and software<a class="headerlink" href="#hardware-and-software" title="Link to this heading">#</a></h2>
 <p>For this tutorial we will need the following hardware</p>
 <ul class="simple">
 <li><p>Arduino Opta Wifi (Can be bought <a href="https://store.arduino.cc/products/opta-wifi?queryID=undefined" target="_blank">here</a>)</p></li>
@@ -388,10 +387,14 @@
 <li><p>Seeed Studio reComputer R1000 series (Can be bought <a href="https://www.seeedstudio.com/reComputer-R1025-10-p-5895.html" target="_blank">here</a>)</p></li>
 <li><p>Power Adaptor for reComputer (Can be bought <a href="https://www.seeedstudio.com/Power-Adapter-12V-2A-EU-p-5732.html" target="_blank">here</a>)</p></li>
 <li><p>Ethernet cable (Can be bought <a href="https://www.adafruit.com/product/5441" target="_blank">here</a>)</p></li>
+<li><p>Monitor, keyboard and mouse for accessing the r1000 computer.</p></li>
+<li><p>Laptop to program Arduino Opta.</p></li>
 </ul>
 <p>We will need the following software</p>
 <ul class="simple">
 <li><p>Arduino IDE (Download it <a href="https://www.arduino.cc/en/software/" target="_blank">here</a>)</p></li>
+<li><p>Install VScode on R1000. Follow instructions <a href="https://code.visualstudio.com/" target="_blank">here</a>.</p></li>
+<li><p>Install pymodbus Python library on R1000. Follow instructions <a href="https://github.com/pymodbus-dev/pymodbus/?tab=readme-ov-file#install" target="_blank">here</a>.</p></li>
 </ul>
 </section>
 <section id="instructions">
@@ -532,11 +535,7 @@ void updateRelayLED() {
 </pre></div>
 </div>
 </div>
-</details><section id="r1000-software-environment">
-<h3><span class="section-number">3.2.1. </span>R1000 software environment<a class="headerlink" href="#r1000-software-environment" title="Link to this heading">#</a></h3>
-<ol class="arabic simple">
-<li><p>Install VScode. Follow instructions <a href="https://code.visualstudio.com/" target="_blank">here</a>.</p></li>
-<li><p>Install pymodbus Python library. Follow instructions <a href="https://github.com/pymodbus-dev/pymodbus/?tab=readme-ov-file#install" target="_blank">here</a>.</p></li>
+</details><ol class="arabic simple" start="4">
 <li><p>In the Raspberry Pi OS environment configure the wired connection to read from the connected Opta.</p></li>
 </ol>
 <ul class="simple">
@@ -551,7 +550,7 @@ void updateRelayLED() {
 </div>
 <a class="reference internal image-reference" href="../../_images/opta_r1000_modbus3.png"><img alt="../../_images/opta_r1000_modbus3.png" class="align-center" src="../../_images/opta_r1000_modbus3.png" style="width: 100%;" /></a>
 <p><br/><br/></p>
-<ol class="arabic simple" start="4">
+<ol class="arabic simple" start="5">
 <li><p>In the VSCode environment. Copy and paste the following script to read the Modbus holding register from the Opta. Run the script and you should be switching on and off the LED 1 and relay 1.</p></li>
 </ol>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
@@ -663,7 +662,6 @@ if __name__ == &quot;__main__&quot;:
 </div>
 </details></section>
 </section>
-</section>
 
     <script type="text/x-thebe-config">
     {
@@ -704,6 +702,15 @@ if __name__ == &quot;__main__&quot;:
         <p class="prev-next-title"><span class="section-number">2. </span>Arduino Opta and Belimo Thermostat</p>
       </div>
     </a>
+    <a class="right-next"
+       href="03_r1000_tstat.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Seeed Studio reComputer r1000 and Belimo Thermostat</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -721,11 +728,8 @@ if __name__ == &quot;__main__&quot;:
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware">3.1. Hardware</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">3.2. Instructions</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#r1000-software-environment">3.2.1. R1000 software environment</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-and-software">3.1. Hardware and software</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">3.2. Instructions</a></li>
 </ul>
   </nav></div>
 
