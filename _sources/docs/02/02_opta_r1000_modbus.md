@@ -1,4 +1,4 @@
-# Arduino Opta and Seeed Studio reComputer r1000
+# Arduino Opta and Seeed Studio reComputer r1000 Modbus TCP/IP
 
 ## Hardware and software
 For this tutorial we will need the following hardware

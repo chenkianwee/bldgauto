@@ -1,4 +1,4 @@
-# Arduino Opta and Belimo Thermostat
+# Arduino Opta and Belimo Thermostat Modbus RTU
 
 ## Hardware and software
 For this tutorial we will need the following hardware
