@@ -1,0 +1,1492 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5. BACnet TCP/IP server with BACpypes &#8212; Building Automation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/02/04_bacnet_server';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="4. Seeed Studio reComputer r1000 and Belimo Thermostat Modbus RTU" href="03_r1000_tstat.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Building Automation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Building Automation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01/concepts.html">1. Concepts</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_opta_tstat.html">2. Arduino Opta and Belimo Thermostat Modbus RTU</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_opta_r1000_modbus.html">3. Arduino Opta and Seeed Studio reComputer r1000 Modbus TCP/IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_r1000_tstat.html">4. Seeed Studio reComputer r1000 and Belimo Thermostat Modbus RTU</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">5. BACnet TCP/IP server with BACpypes</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/chenkianwee/bldgauto" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/chenkianwee/bldgauto/issues/new?title=Issue%20on%20page%20%2Fdocs/02/04_bacnet_server.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/docs/02/04_bacnet_server.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>BACnet TCP/IP server with BACpypes</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-and-software">5.1. Hardware and software</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">5.2. Instructions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-useful-scripts-read-and-write-multiple">5.3. Other Useful Scripts: Read and Write Multiple</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">5.4. Resources</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="bacnet-tcp-ip-server-with-bacpypes">
+<h1><span class="section-number">5. </span>BACnet TCP/IP server with BACpypes<a class="headerlink" href="#bacnet-tcp-ip-server-with-bacpypes" title="Link to this heading">#</a></h1>
+<section id="hardware-and-software">
+<h2><span class="section-number">5.1. </span>Hardware and software<a class="headerlink" href="#hardware-and-software" title="Link to this heading">#</a></h2>
+<p>For this tutorial we will need the following hardware</p>
+<ul class="simple">
+<li><p>Seeed Studio reComputer R1000 series (Can be bought <a href="https://www.seeedstudio.com/reComputer-R1025-10-p-5895.html" target="_blank">here</a>)</p></li>
+<li><p>Power Adaptor for reComputer (Can be bought <a href="https://www.seeedstudio.com/Power-Adapter-12V-2A-EU-p-5732.html" target="_blank">here</a>)</p></li>
+<li><p>Monitor, keyboard and mouse for accessing the r1000 computer.</p></li>
+<li><p>Laptop as the BACnet client.</p></li>
+</ul>
+<p>We will need the following software</p>
+<ul class="simple">
+<li><p>Install VScode on R1000. Follow instructions <a href="https://code.visualstudio.com/" target="_blank">here</a>.</p></li>
+<li><p>Install BACpypes3 Python library on R1000 and your BACnet client laptop. Follow instructions <a href="https://github.com/pymodbus-dev/pymodbus/?tab=readme-ov-file#install" target="_blank">here</a>.</p></li>
+</ul>
+</section>
+<section id="instructions">
+<h2><span class="section-number">5.2. </span>Instructions<a class="headerlink" href="#instructions" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Copy and past this code into a file called bacnet_server.py on the R1000.</p></li>
+</ol>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">bacnet_server.py</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import asyncio
+import random
+import sys
+
+from bacpypes3.argparse import SimpleArgumentParser
+from bacpypes3.app import Application
+from bacpypes3.local.analog import AnalogValueObject
+from bacpypes3.local.binary import BinaryValueObject
+from bacpypes3.local.cmd import Commandable
+from bacpypes3.debugging import bacpypes_debugging, ModuleLogger
+
+# Debug logging setup
+_debug = 0
+_log = ModuleLogger(globals())
+
+# Interval for updating values
+INTERVAL = 5.0
+
+@bacpypes_debugging
+class CommandableAnalogValueObject(Commandable, AnalogValueObject):
+    &quot;&quot;&quot;Commandable Analog Value Object&quot;&quot;&quot;
+
+@bacpypes_debugging
+class CommandableBinaryValueObject(Commandable, BinaryValueObject):
+    &quot;&quot;&quot;Commandable Binary Value Object&quot;&quot;&quot;
+
+@bacpypes_debugging
+class SampleApplication:
+    def __init__(self, args):
+        if _debug:
+            _log.debug(&quot;Initializing SampleApplication&quot;)
+
+        self.app = Application.from_args(args)
+
+        self.read_only_av = AnalogValueObject(
+            objectIdentifier=(&quot;analogValue&quot;, 1),
+            objectName=&quot;read-only-av&quot;,
+            presentValue=4.0,
+            statusFlags=[0, 0, 0, 0],
+            covIncrement=1.0,
+            units=&quot;degreesFahrenheit&quot;,
+            description=&quot;Simulated Read-Only Analog Value&quot;,
+        )
+
+        self.read_only_bv = BinaryValueObject(
+            objectIdentifier=(&quot;binaryValue&quot;, 1),
+            objectName=&quot;read-only-bv&quot;,
+            presentValue=&quot;active&quot;,
+            statusFlags=[0, 0, 0, 0],
+            description=&quot;Simulated Read-Only Binary Value&quot;,
+        )
+
+        self.commandable_av = CommandableAnalogValueObject(
+            objectIdentifier=(&quot;analogValue&quot;, 2),
+            objectName=&quot;commandable-av&quot;,
+            presentValue=0.0,
+            statusFlags=[0, 0, 0, 0],
+            covIncrement=1.0,
+            units=&quot;degreesFahrenheit&quot;,
+            description=&quot;Commandable Analog Value (Simulated)&quot;,
+        )
+
+        self.commandable_bv = CommandableBinaryValueObject(
+            objectIdentifier=(&quot;binaryValue&quot;, 2),
+            objectName=&quot;commandable-bv&quot;,
+            presentValue=&quot;inactive&quot;,
+            statusFlags=[0, 0, 0, 0],
+            description=&quot;Commandable Binary Value (Simulated)&quot;,
+        )
+
+        for obj in [
+            self.read_only_av,
+            self.read_only_bv,
+            self.commandable_av,
+            self.commandable_bv
+        ]:
+            self.app.add_object(obj)
+
+        _log.info(&quot;BACnet Objects initialized.&quot;)
+        asyncio.create_task(self.update_values())
+
+    async def update_values(self):
+        test_values = [
+            (&quot;active&quot;, 1.0),
+            (&quot;inactive&quot;, 2.0),
+            (&quot;active&quot;, 3.0),
+            (&quot;inactive&quot;, 4.0),
+        ]
+        while True:
+            await asyncio.sleep(INTERVAL)
+            prob = random.random()
+            if prob &lt; 0.3:
+                next_value = test_values.pop(0)
+                test_values.append(next_value)
+
+                self.read_only_av.presentValue = next_value[1]
+                self.read_only_bv.presentValue = next_value[0]
+
+            if _debug:
+                _log.debug(f&quot;Read-Only AV: {self.read_only_av.presentValue}&quot;)
+                _log.debug(f&quot;Read-Only BV: {self.read_only_bv.presentValue}&quot;)
+                _log.debug(f&quot;Commandable AV: {self.commandable_av.presentValue}&quot;)
+                _log.debug(f&quot;Commandable BV: {self.commandable_bv.presentValue}&quot;)
+
+async def main():
+    global _debug
+
+    parser = SimpleArgumentParser()
+    args = parser.parse_args()
+
+    if args.debug:
+        _debug = 1
+        _log.set_level(&quot;DEBUG&quot;)
+        _log.debug(&quot;Debug mode enabled&quot;)
+
+    if _debug:
+        _log.debug(f&quot;Parsed arguments: {args}&quot;)
+
+    app = SampleApplication(args)
+    await asyncio.Future()
+
+
+if __name__ == &quot;__main__&quot;:
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        _log.info(&quot;Keyboard interrupt received, shutting down.&quot;)
+        sys.exit(0)
+</pre></div>
+</div>
+</div>
+</details><ol class="arabic simple" start="2">
+<li><p>On the R1000 execute the bacnet_server.py code with the following command. Replacing the –address with your ip4 address.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">bacnet_server</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">address</span> <span class="n">xx</span><span class="o">.</span><span class="n">xx</span><span class="o">.</span><span class="n">xx</span><span class="o">.</span><span class="n">xx</span><span class="o">/</span><span class="mi">24</span> <span class="o">--</span><span class="n">name</span> <span class="n">bacnet_device</span> <span class="o">--</span><span class="n">instance</span> <span class="mi">1</span> <span class="o">--</span><span class="n">debug</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Copy and past this code into a file called read_device_obj_props.py on your laptop which will be the BACnet client. Replace the parameters and execute the script as accordingly.</p></li>
+</ol>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">read_device_obj_props_simple.py</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import asyncio
+import socket
+
+from bacpypes3.app import Application
+from bacpypes3.primitivedata import CharacterString
+from bacpypes3.pdu import Address
+from bacpypes3.json.util import sequence_to_json
+from bacpypes3.basetypes import HostNPort
+from bacpypes3.primitivedata import ObjectIdentifier, PropertyIdentifier
+from bacpypes3.apdu import AbortReason, AbortPDU, ErrorRejectAbortNack
+from bacpypes3.vendor import get_vendor_info
+#=======================================================================================
+#PARAMETERS
+#=======================================================================================
+low_limit = 1
+high_limit = 3000
+
+localIPAddr = Address(&#39;xx.xx.xx.xxx/24&#39;)
+device_id: int = 2
+localObjName: str = &#39;BACapp&#39;
+vendorId: int = 999
+vendorName: str = &#39;unknown&#39;
+model_name: str = &#39;Scripting Tool&#39;
+bbmdTTL: int = 0
+bdtable: list = None,
+bbmdAddress: str = None
+network_number: int = None
+#=======================================================================================
+#FUNCTIONS
+#=======================================================================================
+def charstring(val):
+    return CharacterString(val) if isinstance(val, str) else val
+
+def validate_ip_address(ip: Address) -&gt; bool:
+    result = True
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        if not isinstance(ip, Address):
+            raise ValueError(&quot;Provide Address as bacpypes.Address object&quot;)
+        s.bind(ip.addrTuple)
+    except OSError:
+        result = False
+    finally:
+        s.close()
+    return result
+
+async def object_identifiers( app: Application, device_address: Address, device_identifier: ObjectIdentifier) -&gt; list[ObjectIdentifier]:
+    &quot;&quot;&quot;
+    Read the entire object list from a device at once, or if that fails, read
+    the object identifiers one at a time.
+    &quot;&quot;&quot;
+
+    # try reading the whole thing at once, but it might be too big and
+    # segmentation isn&#39;t supported
+    try:
+        object_list = await app.read_property(
+            device_address, device_identifier, &quot;object-list&quot;
+        )
+        return object_list
+    except AbortPDU as err:
+        if err.apduAbortRejectReason != AbortReason.segmentationNotSupported:
+            print(f&quot;{device_identifier} object-list abort: {err}\n&quot;)
+            return []
+    except ErrorRejectAbortNack as err:
+        print(f&quot;{device_identifier} object-list error/reject: {err}\n&quot;)
+        return []
+
+    # fall back to reading the length and each element one at a time
+    object_list = []
+    try:
+        # read the length
+        object_list_length = await app.read_property(
+            device_address,
+            device_identifier,
+            &quot;object-list&quot;,
+            array_index=0,
+        )
+
+        # read each element individually
+        for i in range(object_list_length):
+            object_identifier = await app.read_property(
+                device_address,
+                device_identifier,
+                &quot;object-list&quot;,
+                array_index=i + 1,
+            )
+            object_list.append(object_identifier)
+    except ErrorRejectAbortNack as err:
+        print(f&quot;{device_identifier} object-list length error/reject: {err}\n&quot;)
+
+    return object_list
+
+#=======================================================================================
+#=======================================================================================
+if bbmdAddress is not None:
+    mode = &quot;foreign&quot;
+elif bdtable:
+    mode = &quot;bbmd&quot;
+else:
+    mode = &quot;normal&quot;
+
+if not validate_ip_address(localIPAddr):
+    raise ValueError(&quot;IP address not valid&quot;)
+
+base_cfg = {&quot;application&quot;: 
+    [
+        {
+            &quot;active-cov-subscriptions&quot;: [],
+            &quot;apdu-segment-timeout&quot;: 1000,
+            &quot;apdu-timeout&quot;: 3000,
+            &quot;application-software-version&quot;: &quot;1.0&quot;,
+            &quot;database-revision&quot;: 1,
+            &quot;device-address-binding&quot;: [],
+            &quot;firmware-revision&quot;: &quot;N/A&quot;,
+            &quot;max-apdu-length-accepted&quot;: 1024,
+            &quot;max-segments-accepted&quot;: 16,
+            &quot;model-name&quot;: charstring(model_name),
+            &quot;number-of-apdu-retries&quot;: 3,
+            &quot;object-identifier&quot;: f&quot;device,{device_id}&quot;,
+            &quot;object-list&quot;: [
+                f&quot;device,{device_id}&quot;,
+                &quot;network-port,1&quot;
+            ],
+            &quot;object-name&quot;: charstring(localObjName),
+            &quot;object-type&quot;: &quot;device&quot;,
+            &quot;property-list&quot;: [
+                &quot;object-identifier&quot;,
+                &quot;object-name&quot;,
+                &quot;object-type&quot;,
+                &quot;property-list&quot;,
+                &quot;system-status&quot;,
+                &quot;vendor-name&quot;,
+                &quot;vendor-identifier&quot;,
+                &quot;model-name&quot;,
+                &quot;firmware-revision&quot;,
+                &quot;application-software-version&quot;,
+                &quot;protocol-version&quot;,
+                &quot;protocol-revision&quot;,
+                &quot;protocol-services-supported&quot;,
+                &quot;protocol-object-types-supported&quot;,
+                &quot;object-list&quot;,
+                &quot;max-apdu-length-accepted&quot;,
+                &quot;segmentation-supported&quot;,
+                &quot;max-segments-accepted&quot;,
+                &quot;local-time&quot;,
+                &quot;local-date&quot;,
+                &quot;apdu-segment-timeout&quot;,
+                &quot;apdu-timeout&quot;,
+                &quot;number-of-apdu-retries&quot;,
+                &quot;device-address-binding&quot;,
+                &quot;database-revision&quot;,
+                &quot;active-cov-subscriptions&quot;,
+                &quot;status-flags&quot;
+            ],
+            &quot;protocol-object-types-supported&quot;: [],
+            &quot;protocol-revision&quot;: 22,
+            &quot;protocol-services-supported&quot;: [
+                &quot;acknowledge-alarm&quot;,
+                &quot;confirmed-cov-notification&quot;,
+                &quot;confirmed-event-notification&quot;,
+                &quot;subscribe-cov&quot;,
+                &quot;atomic-write-file&quot;,
+                &quot;add-list-element&quot;,
+                &quot;read-property&quot;,
+                &quot;read-property-multiple&quot;,
+                &quot;write-property&quot;,
+                &quot;write-property-multiple&quot;,
+                &quot;read-range&quot;
+            ],
+            &quot;protocol-version&quot;: 1,
+            &quot;segmentation-supported&quot;: &quot;segmented-both&quot;,
+            &quot;status-flags&quot;: [],
+            &quot;system-status&quot;: &quot;operational&quot;,
+            &quot;vendor-identifier&quot;: vendorId,
+            &quot;vendor-name&quot;: charstring(vendorName)
+        },
+        {
+            &quot;bacnet-ip-mode&quot;: mode,
+            &quot;bacnet-ip-udp-port&quot;: localIPAddr.addrPort,
+            &quot;changes-pending&quot;: False,
+            &quot;ip-address&quot;: str(localIPAddr),
+            &quot;ip-subnet-mask&quot;: str(localIPAddr.netmask),
+            &quot;link-speed&quot;: 0.0,
+            &quot;network-number&quot;: network_number,
+            &quot;network-number-quality&quot;: &quot;unknown&quot;,
+            &quot;network-type&quot;: &quot;ipv4&quot;,
+            &quot;object-identifier&quot;: &quot;network-port,1&quot;,
+            &quot;object-name&quot;: &quot;NetworkPort-1&quot;,
+            &quot;object-type&quot;: &quot;network-port&quot;,
+            &quot;out-of-service&quot;: False,
+            &quot;property-list&quot;: [
+                &quot;object-identifier&quot;,
+                &quot;object-name&quot;,
+                &quot;object-type&quot;,
+                &quot;property-list&quot;,
+                &quot;status-flags&quot;,
+                &quot;reliability&quot;,
+                &quot;out-of-service&quot;,
+                &quot;network-type&quot;,
+                &quot;protocol-level&quot;,
+                &quot;network-number&quot;,
+                &quot;network-number-quality&quot;,
+                &quot;changes-pending&quot;,
+                &quot;mac-address&quot;,
+                &quot;link-speed&quot;,
+                &quot;bacnet-ip-mode&quot;,
+                &quot;ip-address&quot;,
+                &quot;bacnet-ip-udp-port&quot;,
+                &quot;ip-subnet-mask&quot;
+            ],
+            &quot;protocol-level&quot;: &quot;bacnet-application&quot;,
+            &quot;reliability&quot;: &quot;no-fault-detected&quot;,
+            &quot;status-flags&quot;: [],
+            &quot;bbmd-broadcast-distribution-table&quot;: [],
+            &quot;bbmd-accept-f-d-registrations&quot;: False,
+            &quot;bbmd-foreign-device-table&quot;: [],
+            &quot;fd-bbmd-address&quot;: sequence_to_json(HostNPort(bbmdAddress)),
+            &quot;fd-subscription-lifetime&quot;: bbmdTTL,
+        }
+    ]
+}
+
+async def main() -&gt; None:
+    app = None
+    try:
+        # build an application
+        app = Application.from_json(base_cfg[&quot;application&quot;])
+        print(app)
+        # run the query
+        i_ams = await app.who_is(low_limit, high_limit)
+        for i_am in i_ams:
+            device_address: Address = i_am.pduSource
+            device_identifier: ObjectIdentifier = i_am.iAmDeviceIdentifier
+            vendor_info = get_vendor_info(i_am.vendorID)
+            print(f&quot;{device_identifier} @ {device_address}, from vendor-{vendor_info.vendor_identifier}&quot;)
+            object_list = await object_identifiers(app, device_address, device_identifier)
+            try:
+                device_description: str = await app.read_property(
+                    device_address, device_identifier, &quot;description&quot;
+                )
+                print(f&quot;    description: {device_description}&quot;)
+            except ErrorRejectAbortNack as err:
+                print(f&quot;{device_identifier} description error: {err}\n&quot;)
+
+            for object_identifier in object_list:
+                object_class = vendor_info.get_object_class(object_identifier[0])
+                if object_class is None:
+                    print(f&quot;unknown object type: {object_identifier}\n&quot;)
+                    continue
+                print(f&quot;    {object_identifier}:&quot;)
+            
+                # read the property list
+                property_list = None
+                try:
+                    property_list = await app.read_property(device_address, object_identifier, &quot;property-list&quot;)
+                except ErrorRejectAbortNack as err:
+                    print(f&quot;{object_identifier} property-list error: {err}\n&quot;)
+
+                for property_name in (
+                    &quot;object-name&quot;,
+                    &quot;description&quot;,
+                    &quot;present-value&quot;,
+                    &quot;units&quot;,
+                ):
+                    try:
+                        # don&#39;t bother attempting to read the property if the object doesn&#39;t say it exists
+                        property_identifier = PropertyIdentifier(property_name)
+                        if property_identifier not in property_list:
+                            continue
+
+                        property_class = object_class.get_property_type(property_identifier)
+                        if property_class is None:
+                            print(f&quot;{object_identifier} unknown property: {property_identifier}\n&quot;)
+                            continue
+
+                        property_value = await app.read_property(
+                            device_address, object_identifier, property_identifier
+                        )
+
+                        print(f&quot;        {property_name}: {property_value}&quot;)
+
+                    except ErrorRejectAbortNack as err:
+                        print(f&quot;{object_identifier} {property_name} error: {err}\n&quot;)            
+    finally:
+        if app:
+            app.close()
+
+if __name__ == &quot;__main__&quot;:
+    asyncio.run(main())
+</pre></div>
+</div>
+</div>
+</details><ol class="arabic simple" start="4">
+<li><p>You should be able to get the following result.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">device</span><span class="p">,</span><span class="mi">1</span> <span class="o">@</span> <span class="n">xxx</span><span class="o">.</span><span class="n">xxx</span><span class="o">.</span><span class="n">xxx</span><span class="o">.</span><span class="n">xxx</span><span class="p">,</span> <span class="kn">from</span><span class="w"> </span><span class="nn">vendor</span><span class="o">-</span><span class="mi">999</span>
+<span class="n">device</span><span class="p">,</span><span class="mi">1</span> <span class="n">description</span> <span class="n">error</span><span class="p">:</span> <span class="nb">property</span><span class="p">:</span> <span class="n">unknown</span><span class="o">-</span><span class="nb">property</span>
+
+    <span class="n">device</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">-</span><span class="n">name</span><span class="p">:</span> <span class="n">zulu</span>
+    <span class="n">network</span><span class="o">-</span><span class="n">port</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">-</span><span class="n">name</span><span class="p">:</span> <span class="n">NetworkPort</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">analog</span><span class="o">-</span><span class="n">value</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">-</span><span class="n">name</span><span class="p">:</span> <span class="n">read</span><span class="o">-</span><span class="n">only</span><span class="o">-</span><span class="n">av</span>
+        <span class="n">description</span><span class="p">:</span> <span class="n">Simulated</span> <span class="n">Read</span><span class="o">-</span><span class="n">Only</span> <span class="n">Analog</span> <span class="n">Value</span>
+        <span class="n">present</span><span class="o">-</span><span class="n">value</span><span class="p">:</span> <span class="mf">4.0</span>
+        <span class="n">units</span><span class="p">:</span> <span class="n">degrees</span><span class="o">-</span><span class="n">fahrenheit</span>
+    <span class="n">binary</span><span class="o">-</span><span class="n">value</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">-</span><span class="n">name</span><span class="p">:</span> <span class="n">read</span><span class="o">-</span><span class="n">only</span><span class="o">-</span><span class="n">bv</span>
+        <span class="n">description</span><span class="p">:</span> <span class="n">Simulated</span> <span class="n">Read</span><span class="o">-</span><span class="n">Only</span> <span class="n">Binary</span> <span class="n">Value</span>
+        <span class="n">present</span><span class="o">-</span><span class="n">value</span><span class="p">:</span> <span class="n">inactive</span>
+    <span class="n">analog</span><span class="o">-</span><span class="n">value</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">-</span><span class="n">name</span><span class="p">:</span> <span class="n">commandable</span><span class="o">-</span><span class="n">av</span>
+        <span class="n">description</span><span class="p">:</span> <span class="n">Commandable</span> <span class="n">Analog</span> <span class="n">Value</span> <span class="p">(</span><span class="n">Simulated</span><span class="p">)</span>
+        <span class="n">present</span><span class="o">-</span><span class="n">value</span><span class="p">:</span> <span class="mf">0.0</span>
+        <span class="n">units</span><span class="p">:</span> <span class="n">degrees</span><span class="o">-</span><span class="n">fahrenheit</span>
+    <span class="n">binary</span><span class="o">-</span><span class="n">value</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">-</span><span class="n">name</span><span class="p">:</span> <span class="n">commandable</span><span class="o">-</span><span class="n">bv</span>
+        <span class="n">description</span><span class="p">:</span> <span class="n">Commandable</span> <span class="n">Binary</span> <span class="n">Value</span> <span class="p">(</span><span class="n">Simulated</span><span class="p">)</span>
+        <span class="n">present</span><span class="o">-</span><span class="n">value</span><span class="p">:</span> <span class="n">inactive</span>
+</pre></div>
+</div>
+</section>
+<section id="other-useful-scripts-read-and-write-multiple">
+<h2><span class="section-number">5.3. </span>Other Useful Scripts: Read and Write Multiple<a class="headerlink" href="#other-useful-scripts-read-and-write-multiple" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>You can also run the script below to read multiple properties.</p></li>
+</ol>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">read_multiple_properties_simple_script.py</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import asyncio
+import socket
+
+from bacpypes3.app import Application
+from bacpypes3.primitivedata import CharacterString
+from bacpypes3.pdu import Address
+from bacpypes3.json.util import sequence_to_json
+from bacpypes3.basetypes import HostNPort
+from bacpypes3.apdu import ErrorRejectAbortNack
+from bacpypes3.constructeddata import AnyAtomic
+#=======================================================================================
+#PARAMETERS
+#=======================================================================================
+# for single read
+object_identifier: str = &#39;analog-value,1&#39;
+property_identifier: str = &#39;present-value&#39;
+# for multiple read
+pmter_ls = [&#39;analog-value,1&#39;,[&#39;present-value&#39;, &#39;object-name&#39;],&#39;analog-value,2&#39;,[&#39;present-value&#39;]]
+# parameters for creating a bacpypes app
+server_ipaddr = Address(&quot;10.42.0.1&quot;)
+localIPAddr: Address = Address(&quot;10.42.0.103/24&quot;)
+device_id: int = 2
+localObjName: str = &#39;BACapp&#39;
+vendorId: int = 999
+vendorName: str = &#39;unknown&#39;
+model_name: str = &#39;Scripting Tool&#39;
+bbmdTTL: int = 0
+bdtable: list = None,
+bbmdAddress: str = None
+network_number: int = None
+#=======================================================================================
+#FUNCTIONS
+#=======================================================================================
+def charstring(val):
+    return CharacterString(val) if isinstance(val, str) else val
+
+def validate_ip_address(ip: Address) -&gt; bool:
+    result = True
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        if not isinstance(ip, Address):
+            raise ValueError(&quot;Provide Address as bacpypes.Address object&quot;)
+        s.bind(ip.addrTuple)
+    except OSError:
+        result = False
+    finally:
+        s.close()
+    return result
+
+#=======================================================================================
+#=======================================================================================
+if bbmdAddress is not None:
+    mode = &quot;foreign&quot;
+elif bdtable:
+    mode = &quot;bbmd&quot;
+else:
+    mode = &quot;normal&quot;
+
+if not validate_ip_address(localIPAddr):
+    raise ValueError(&quot;IP address not valid&quot;)
+
+base_cfg = {&quot;application&quot;: 
+    [
+        {
+            &quot;active-cov-subscriptions&quot;: [],
+            &quot;apdu-segment-timeout&quot;: 1000,
+            &quot;apdu-timeout&quot;: 3000,
+            &quot;application-software-version&quot;: &quot;1.0&quot;,
+            &quot;database-revision&quot;: 1,
+            &quot;device-address-binding&quot;: [],
+            &quot;firmware-revision&quot;: &quot;N/A&quot;,
+            &quot;max-apdu-length-accepted&quot;: 1024,
+            &quot;max-segments-accepted&quot;: 16,
+            &quot;model-name&quot;: charstring(model_name),
+            &quot;number-of-apdu-retries&quot;: 3,
+            &quot;object-identifier&quot;: f&quot;device,{device_id}&quot;,
+            &quot;object-list&quot;: [
+                f&quot;device,{device_id}&quot;,
+                &quot;network-port,1&quot;
+            ],
+            &quot;object-name&quot;: charstring(localObjName),
+            &quot;object-type&quot;: &quot;device&quot;,
+            &quot;property-list&quot;: [
+                &quot;object-identifier&quot;,
+                &quot;object-name&quot;,
+                &quot;object-type&quot;,
+                &quot;property-list&quot;,
+                &quot;system-status&quot;,
+                &quot;vendor-name&quot;,
+                &quot;vendor-identifier&quot;,
+                &quot;model-name&quot;,
+                &quot;firmware-revision&quot;,
+                &quot;application-software-version&quot;,
+                &quot;protocol-version&quot;,
+                &quot;protocol-revision&quot;,
+                &quot;protocol-services-supported&quot;,
+                &quot;protocol-object-types-supported&quot;,
+                &quot;object-list&quot;,
+                &quot;max-apdu-length-accepted&quot;,
+                &quot;segmentation-supported&quot;,
+                &quot;max-segments-accepted&quot;,
+                &quot;local-time&quot;,
+                &quot;local-date&quot;,
+                &quot;apdu-segment-timeout&quot;,
+                &quot;apdu-timeout&quot;,
+                &quot;number-of-apdu-retries&quot;,
+                &quot;device-address-binding&quot;,
+                &quot;database-revision&quot;,
+                &quot;active-cov-subscriptions&quot;,
+                &quot;status-flags&quot;
+            ],
+            &quot;protocol-object-types-supported&quot;: [],
+            &quot;protocol-revision&quot;: 22,
+            &quot;protocol-services-supported&quot;: [
+                &quot;acknowledge-alarm&quot;,
+                &quot;confirmed-cov-notification&quot;,
+                &quot;confirmed-event-notification&quot;,
+                &quot;subscribe-cov&quot;,
+                &quot;atomic-write-file&quot;,
+                &quot;add-list-element&quot;,
+                &quot;read-property&quot;,
+                &quot;read-property-multiple&quot;,
+                &quot;write-property&quot;,
+                &quot;write-property-multiple&quot;,
+                &quot;read-range&quot;
+            ],
+            &quot;protocol-version&quot;: 1,
+            &quot;segmentation-supported&quot;: &quot;segmented-both&quot;,
+            &quot;status-flags&quot;: [],
+            &quot;system-status&quot;: &quot;operational&quot;,
+            &quot;vendor-identifier&quot;: vendorId,
+            &quot;vendor-name&quot;: charstring(vendorName)
+        },
+        {
+            &quot;bacnet-ip-mode&quot;: mode,
+            &quot;bacnet-ip-udp-port&quot;: localIPAddr.addrPort,
+            &quot;changes-pending&quot;: False,
+            &quot;ip-address&quot;: str(localIPAddr),
+            &quot;ip-subnet-mask&quot;: str(localIPAddr.netmask),
+            &quot;link-speed&quot;: 0.0,
+            &quot;network-number&quot;: network_number,
+            &quot;network-number-quality&quot;: &quot;unknown&quot;,
+            &quot;network-type&quot;: &quot;ipv4&quot;,
+            &quot;object-identifier&quot;: &quot;network-port,1&quot;,
+            &quot;object-name&quot;: &quot;NetworkPort-1&quot;,
+            &quot;object-type&quot;: &quot;network-port&quot;,
+            &quot;out-of-service&quot;: False,
+            &quot;property-list&quot;: [
+                &quot;object-identifier&quot;,
+                &quot;object-name&quot;,
+                &quot;object-type&quot;,
+                &quot;property-list&quot;,
+                &quot;status-flags&quot;,
+                &quot;reliability&quot;,
+                &quot;out-of-service&quot;,
+                &quot;network-type&quot;,
+                &quot;protocol-level&quot;,
+                &quot;network-number&quot;,
+                &quot;network-number-quality&quot;,
+                &quot;changes-pending&quot;,
+                &quot;mac-address&quot;,
+                &quot;link-speed&quot;,
+                &quot;bacnet-ip-mode&quot;,
+                &quot;ip-address&quot;,
+                &quot;bacnet-ip-udp-port&quot;,
+                &quot;ip-subnet-mask&quot;
+            ],
+            &quot;protocol-level&quot;: &quot;bacnet-application&quot;,
+            &quot;reliability&quot;: &quot;no-fault-detected&quot;,
+            &quot;status-flags&quot;: [],
+            &quot;bbmd-broadcast-distribution-table&quot;: [],
+            &quot;bbmd-accept-f-d-registrations&quot;: False,
+            &quot;bbmd-foreign-device-table&quot;: [],
+            &quot;fd-bbmd-address&quot;: sequence_to_json(HostNPort(bbmdAddress)),
+            &quot;fd-subscription-lifetime&quot;: bbmdTTL,
+        }
+    ]
+}
+
+async def main() -&gt; None:
+    app = None
+    try:
+        # build an application
+        app = Application.from_json(base_cfg[&quot;application&quot;])
+        try:
+            # read a single property
+            sgl_response = await app.read_property(
+                    server_ipaddr,
+                    object_identifier,
+                    property_identifier,
+                )
+
+            # read multiple property
+            mltp_response = await app.read_property_multiple(server_ipaddr, pmter_ls)
+            # print(f&quot;    - response: {response}&quot;)
+        except ErrorRejectAbortNack as err:
+            print(f&quot;    - exception: {err}&quot;)
+            mltp_response = err
+
+        if isinstance(mltp_response, AnyAtomic):
+            print(&quot;    - schedule objects&quot;)
+            mltp_response = mltp_response.get_value()
+
+        print(f&quot;this is the single response\n   {sgl_response}&quot;)
+        print(f&quot;this is the multiple read response\n    {mltp_response}&quot;)
+
+    finally:
+        if app:
+            app.close()
+
+if __name__ == &quot;__main__&quot;:
+    asyncio.run(main())
+</pre></div>
+</div>
+</div>
+</details><ol class="arabic simple" start="2">
+<li><p>You can also run the script below to write to multiple properties.</p></li>
+</ol>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">write_property_simple_script.py</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import re
+import socket
+import asyncio
+
+from bacpypes3.debugging import ModuleLogger
+from bacpypes3.app import Application
+from bacpypes3.primitivedata import CharacterString
+from bacpypes3.pdu import Address
+from bacpypes3.primitivedata import ObjectIdentifier
+from bacpypes3.apdu import ErrorRejectAbortNack
+from bacpypes3.json.util import sequence_to_json
+from bacpypes3.basetypes import HostNPort
+
+# some debugging
+_debug = 1
+_log = ModuleLogger(globals())
+# &#39;property[index]&#39; matching
+property_index_re = re.compile(r&quot;^([0-9A-Za-z-]+)(?:\[([0-9]+)\])?$&quot;)
+#=======================================================================================
+#PARAMETERS
+#=======================================================================================
+# for single write
+obj_identifier: str = &#39;analog-value,2&#39;
+prop_identifier: str = &#39;present-value&#39;
+val2write = 63.2
+write_priority: int = None
+# parameters for creating a bacpypes app
+server_ipaddr = Address(&quot;10.42.0.1&quot;)
+localIPAddr: Address = Address(&quot;10.42.0.103/24&quot;)
+device_id: int = 2
+localObjName: str = &#39;BACapp&#39;
+vendorId: int = 999
+vendorName: str = &#39;unknown&#39;
+model_name: str = &#39;Scripting Tool&#39;
+bbmdTTL: int = 0
+bdtable: list = None,
+bbmdAddress: str = None
+network_number: int = None
+#=======================================================================================
+#FUNCTIONS
+#=======================================================================================
+def charstring(val):
+    return CharacterString(val) if isinstance(val, str) else val
+
+def validate_ip_address(ip: Address) -&gt; bool:
+    result = True
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        if not isinstance(ip, Address):
+            raise ValueError(&quot;Provide Address as bacpypes.Address object&quot;)
+        s.bind(ip.addrTuple)
+    except OSError:
+        result = False
+    finally:
+        s.close()
+    return result
+
+#=======================================================================================
+#=======================================================================================
+if bbmdAddress is not None:
+    mode = &quot;foreign&quot;
+elif bdtable:
+    mode = &quot;bbmd&quot;
+else:
+    mode = &quot;normal&quot;
+
+if not validate_ip_address(localIPAddr):
+    raise ValueError(&quot;IP address not valid&quot;)
+
+base_cfg = {&quot;application&quot;: 
+    [
+        {
+            &quot;active-cov-subscriptions&quot;: [],
+            &quot;apdu-segment-timeout&quot;: 1000,
+            &quot;apdu-timeout&quot;: 3000,
+            &quot;application-software-version&quot;: &quot;1.0&quot;,
+            &quot;database-revision&quot;: 1,
+            &quot;device-address-binding&quot;: [],
+            &quot;firmware-revision&quot;: &quot;N/A&quot;,
+            &quot;max-apdu-length-accepted&quot;: 1024,
+            &quot;max-segments-accepted&quot;: 16,
+            &quot;model-name&quot;: charstring(model_name),
+            &quot;number-of-apdu-retries&quot;: 3,
+            &quot;object-identifier&quot;: f&quot;device,{device_id}&quot;,
+            &quot;object-list&quot;: [
+                f&quot;device,{device_id}&quot;,
+                &quot;network-port,1&quot;
+            ],
+            &quot;object-name&quot;: charstring(localObjName),
+            &quot;object-type&quot;: &quot;device&quot;,
+            &quot;property-list&quot;: [
+                &quot;object-identifier&quot;,
+                &quot;object-name&quot;,
+                &quot;object-type&quot;,
+                &quot;property-list&quot;,
+                &quot;system-status&quot;,
+                &quot;vendor-name&quot;,
+                &quot;vendor-identifier&quot;,
+                &quot;model-name&quot;,
+                &quot;firmware-revision&quot;,
+                &quot;application-software-version&quot;,
+                &quot;protocol-version&quot;,
+                &quot;protocol-revision&quot;,
+                &quot;protocol-services-supported&quot;,
+                &quot;protocol-object-types-supported&quot;,
+                &quot;object-list&quot;,
+                &quot;max-apdu-length-accepted&quot;,
+                &quot;segmentation-supported&quot;,
+                &quot;max-segments-accepted&quot;,
+                &quot;local-time&quot;,
+                &quot;local-date&quot;,
+                &quot;apdu-segment-timeout&quot;,
+                &quot;apdu-timeout&quot;,
+                &quot;number-of-apdu-retries&quot;,
+                &quot;device-address-binding&quot;,
+                &quot;database-revision&quot;,
+                &quot;active-cov-subscriptions&quot;,
+                &quot;status-flags&quot;
+            ],
+            &quot;protocol-object-types-supported&quot;: [],
+            &quot;protocol-revision&quot;: 22,
+            &quot;protocol-services-supported&quot;: [
+                &quot;acknowledge-alarm&quot;,
+                &quot;confirmed-cov-notification&quot;,
+                &quot;confirmed-event-notification&quot;,
+                &quot;subscribe-cov&quot;,
+                &quot;atomic-write-file&quot;,
+                &quot;add-list-element&quot;,
+                &quot;read-property&quot;,
+                &quot;read-property-multiple&quot;,
+                &quot;write-property&quot;,
+                &quot;write-property-multiple&quot;,
+                &quot;read-range&quot;
+            ],
+            &quot;protocol-version&quot;: 1,
+            &quot;segmentation-supported&quot;: &quot;segmented-both&quot;,
+            &quot;status-flags&quot;: [],
+            &quot;system-status&quot;: &quot;operational&quot;,
+            &quot;vendor-identifier&quot;: vendorId,
+            &quot;vendor-name&quot;: charstring(vendorName)
+        },
+        {
+            &quot;bacnet-ip-mode&quot;: mode,
+            &quot;bacnet-ip-udp-port&quot;: localIPAddr.addrPort,
+            &quot;changes-pending&quot;: False,
+            &quot;ip-address&quot;: str(localIPAddr),
+            &quot;ip-subnet-mask&quot;: str(localIPAddr.netmask),
+            &quot;link-speed&quot;: 0.0,
+            &quot;network-number&quot;: network_number,
+            &quot;network-number-quality&quot;: &quot;unknown&quot;,
+            &quot;network-type&quot;: &quot;ipv4&quot;,
+            &quot;object-identifier&quot;: &quot;network-port,1&quot;,
+            &quot;object-name&quot;: &quot;NetworkPort-1&quot;,
+            &quot;object-type&quot;: &quot;network-port&quot;,
+            &quot;out-of-service&quot;: False,
+            &quot;property-list&quot;: [
+                &quot;object-identifier&quot;,
+                &quot;object-name&quot;,
+                &quot;object-type&quot;,
+                &quot;property-list&quot;,
+                &quot;status-flags&quot;,
+                &quot;reliability&quot;,
+                &quot;out-of-service&quot;,
+                &quot;network-type&quot;,
+                &quot;protocol-level&quot;,
+                &quot;network-number&quot;,
+                &quot;network-number-quality&quot;,
+                &quot;changes-pending&quot;,
+                &quot;mac-address&quot;,
+                &quot;link-speed&quot;,
+                &quot;bacnet-ip-mode&quot;,
+                &quot;ip-address&quot;,
+                &quot;bacnet-ip-udp-port&quot;,
+                &quot;ip-subnet-mask&quot;
+            ],
+            &quot;protocol-level&quot;: &quot;bacnet-application&quot;,
+            &quot;reliability&quot;: &quot;no-fault-detected&quot;,
+            &quot;status-flags&quot;: [],
+            &quot;bbmd-broadcast-distribution-table&quot;: [],
+            &quot;bbmd-accept-f-d-registrations&quot;: False,
+            &quot;bbmd-foreign-device-table&quot;: [],
+            &quot;fd-bbmd-address&quot;: sequence_to_json(HostNPort(bbmdAddress)),
+            &quot;fd-subscription-lifetime&quot;: bbmdTTL,
+        }
+    ]
+}
+
+async def main() -&gt; None:
+    app = None
+    try:
+        # interpret the address
+        if _debug:
+            _log.debug(&quot;device_address: %r&quot;, server_ipaddr)
+
+        # interpret the object identifier
+        object_identifier = ObjectIdentifier(obj_identifier)
+        if _debug:
+            _log.debug(&quot;object_identifier: %r&quot;, object_identifier)
+
+        # split the property identifier and its index
+        property_index_match = property_index_re.match(prop_identifier)
+        if not property_index_match:
+            raise ValueError(&quot;property specification incorrect&quot;)
+        property_identifier, property_array_index = property_index_match.groups()
+        if property_identifier.isdigit():
+            property_identifier = int(property_identifier)
+        if property_array_index is not None:
+            property_array_index = int(property_array_index)
+        # check the priority
+        priority = None
+        if write_priority:
+            priority = write_priority
+            if (priority &lt; 1) or (priority &gt; 16):
+                raise ValueError(f&quot;priority: {priority}&quot;)
+        if _debug:
+            _log.debug(&quot;priority: %r&quot;, priority)
+
+        # build an application
+        app = Application.from_json(base_cfg[&quot;application&quot;])
+        if _debug:
+            _log.debug(&quot;app: %r&quot;, app)
+
+        try:
+            response = await app.write_property(
+                server_ipaddr,
+                object_identifier,
+                property_identifier,
+                val2write,
+                property_array_index,
+                priority,
+            )
+
+            if _debug:
+                print(&quot;response: %r&quot;, response)
+
+        except ErrorRejectAbortNack as err:
+            print(str(err))
+
+    finally:
+        if app:
+            app.close()
+
+
+if __name__ == &quot;__main__&quot;:
+    asyncio.run(main())
+</pre></div>
+</div>
+</div>
+</details></section>
+<section id="resources">
+<h2><span class="section-number">5.4. </span>Resources<a class="headerlink" href="#resources" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://bac0.readthedocs.io/en/latest/read.html#read-examples">https://bac0.readthedocs.io/en/latest/read.html#read-examples</a></p></li>
+<li><p>BACnet hierachy</p>
+<ul>
+<li><p>Device</p>
+<ul>
+<li><p>each device can contain multiple objects Objects (e.g. ‘analog-value,1’, ‘network-port,1’, ‘device,1’)</p>
+<ul>
+<li><p>within each object there are multiple Properties (e.g. ‘present-value’, ‘object-name’)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>using the sample console scripts from the BACpypes sample folder, on the client side run this</p>
+<ul>
+<li><p>python <a class="reference external" href="http://read-property.py">read-property.py</a> xx.xx.xx.xx analog-value,1 present-value</p></li>
+<li><p>python <a class="reference external" href="http://discover-devices.py">discover-devices.py</a> –address xx.xx.xx.xx/24 1 3000 –vendoridentifier 999 –debug</p></li>
+<li><p>python <a class="reference external" href="http://write-property.py">write-property.py</a> xx.xx.xx.xx/24 analog-value,1 present-value 28.0</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./docs/02"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03_r1000_tstat.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Seeed Studio reComputer r1000 and Belimo Thermostat Modbus RTU</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-and-software">5.1. Hardware and software</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">5.2. Instructions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-useful-scripts-read-and-write-multiple">5.3. Other Useful Scripts: Read and Write Multiple</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">5.4. Resources</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kian Wee Chen
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
