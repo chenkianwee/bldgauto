@@ -14,7 +14,14 @@ We will need the following software
 - Install BACpypes3 Python library on R1000 and your BACnet client laptop. Follow instructions <a href="https://github.com/pymodbus-dev/pymodbus/?tab=readme-ov-file#install" target="_blank">here</a>.
 
 ## Instructions
-1. Copy and past this code into a file called bacnet_server.py on the R1000.
+1. Connect your Seeed Studio R1000 with your client BACnet laptop to the same Wifi network.
+```{image} ../../_static/bacnet_server/bacnet_server1.png
+:width: 50%
+:align: center
+```
+<br/><br/>
+
+2. Copy and past this code into a file called bacnet_server.py on the R1000.
 ``` {dropdown} bacnet_server.py
     import asyncio
     import random
@@ -147,12 +154,12 @@ We will need the following software
 
 ```
 
-2. On the R1000 execute the bacnet_server.py code with the following command. Replacing the --address with your ip4 address.
+3. On the R1000 execute the bacnet_server.py code with the following command. Replacing the --address with your ip4 address.
 ```
 python bacnet_server.py --address xx.xx.xx.xx/24 --name bacnet_device --instance 1 --debug
 ```
-
-3. Copy and past this code into a file called read_device_obj_props.py on your laptop which will be the BACnet client. Replace the parameters and execute the script as accordingly.
+## Accessing the BACnet server from a BACnet Client
+1. Make sure your BACnet client laptop is connected to the same Wifi network as the R1000. Copy and paste this code into a file called read_device_obj_props.py on your laptop which will be the BACnet client. Replace the parameters and execute the script as accordingly.
 ``` {dropdown} read_device_obj_props_simple.py
     import asyncio
     import socket
@@ -445,7 +452,7 @@ python bacnet_server.py --address xx.xx.xx.xx/24 --name bacnet_device --instance
         asyncio.run(main())
 ```
 
-4. You should be able to get the following result.
+2. You should be able to get the following result.
 ```
 device,1 @ xxx.xxx.xxx.xxx, from vendor-999
 device,1 description error: property: unknown-property

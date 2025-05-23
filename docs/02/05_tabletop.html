@@ -1,0 +1,1043 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>6. Tabletop Prototype &#8212; Building Automation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/02/05_tabletop';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="5. BACnet TCP/IP server with BACpypes" href="04_bacnet_server.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Building Automation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Building Automation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Concepts</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../01/concepts.html">1. Concepts</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_opta_tstat.html">2. Arduino Opta and Belimo Thermostat Modbus RTU</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_opta_r1000_modbus.html">3. Arduino Opta and Seeed Studio reComputer r1000 Modbus TCP/IP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_r1000_tstat.html">4. Seeed Studio reComputer r1000 and Belimo Thermostat Modbus RTU</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_bacnet_server.html">5. BACnet TCP/IP server with BACpypes</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">6. Tabletop Prototype</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/chenkianwee/bldgauto" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/chenkianwee/bldgauto/issues/new?title=Issue%20on%20page%20%2Fdocs/02/05_tabletop.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/docs/02/05_tabletop.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Tabletop Prototype</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-and-software">6.1. Hardware and software</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">6.2. Instructions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-thermostat-and-opta">6.3. Configure Thermostat and Opta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-seeed-studio-r1000">6.4. Configure Seeed Studio R1000</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-r1000-bacnet-server-from-you-bacnet-client-laptop">6.5. Accessing R1000 BACnet Server from you BACnet client laptop</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="tabletop-prototype">
+<h1><span class="section-number">6. </span>Tabletop Prototype<a class="headerlink" href="#tabletop-prototype" title="Link to this heading">#</a></h1>
+<section id="hardware-and-software">
+<h2><span class="section-number">6.1. </span>Hardware and software<a class="headerlink" href="#hardware-and-software" title="Link to this heading">#</a></h2>
+<p>For this tutorial we will need the following hardware</p>
+<ul class="simple">
+<li><p>Arduino Opta Wifi (Can be bought <a href="https://store.arduino.cc/products/opta-wifi?queryID=undefined" target="_blank">here</a>)</p></li>
+<li><p>24V power supply (Can be bought <a href="https://www.amazon.com/dp/B09281KTS8?ref=nb_sb_ss_w_as-reorder_k1_1_5&amp=&crid=2KKGJ6OCSOW31&amp=&sprefix=24+v+" target="_blank">here</a>)</p></li>
+<li><p>Seeed Studio reComputer R1000 series (Can be bought <a href="https://www.seeedstudio.com/reComputer-R1025-10-p-5895.html" target="_blank">here</a>)</p></li>
+<li><p>Power Adaptor for reComputer (Can be bought <a href="https://www.seeedstudio.com/Power-Adapter-12V-2A-EU-p-5732.html" target="_blank">here</a>)</p></li>
+<li><p>Ethernet cable (Can be bought <a href="https://www.adafruit.com/product/5441" target="_blank">here</a>)</p></li>
+<li><p>Monitor, keyboard and mouse for accessing the r1000 computer.</p></li>
+<li><p>Laptop to program Arduino Opta.</p></li>
+<li><p>Belimo Thermostat 22RTH 5900RD (Can be bought <a href="https://blackhawksupply.com/products/belimo-22rth-5900d?variant=39943328530528" target="_blank">here</a>)</p></li>
+<li><p>Phone with NFC enabled.</p></li>
+<li><p>RS485 cable (Can be bought <a href="https://www.amazon.com/Custom-Cable-Connection-Conductor-Stranded/dp/B0DN8LBHVX/ref=sr_1_9?crid=2EF2MFSKE9GUN&dib=eyJ2IjoiMSJ9.ZAoXBHFAV3jQ649WESWLq7Fblh5kXmKAn1_op-ndrzo37jN83uGhdVz5CY4HlBjQX9DCS-Ay3BZ7cFtt-JEgYeZLjRaJMMP26yjvnQ8zoEum73c-2KSAm87qCudWMXyR7YtPswt5J-ssUUhkjlNT7TtXm6oFdM9Ort6cTMzfElhz7hfXuk8E5avDdm2bNu0bUcXjIR2dtJ0tv0KNl6ZxajMCDLxkTX1-6YbI9sAGEAY.wfyvcxwkvMGA_17ZK3BV3J_2LgEdFHk3WgHqKTdz2SA&dib_tag=se&keywords=rs485%2Bcable%2B3%2Bwire&qid=1746563660&sprefix=rs485%2Bcable%2B3%2Bwire%2Caps%2C71&sr=8-9&th=1" target="_blank">here</a>)</p></li>
+<li><p>USB-C Data Cable (Can be bought <a href="https://www.amazon.com/dp/B087JMJSVC?ref=nb_sb_ss_w_as-reorder_k0_1_16&amp=&crid=3V52YX7OEX7W9&sprefix=usb%2Bc%2Bdata%2Bcable&th=1" target="_blank">here</a>)</p></li>
+<li><p>100 watts incandescent light bulb (Can be bought <a href="https://www.amazon.com/Medium-Frosted-Rough-Service-Light/dp/B072HCF51T/ref=sr_1_6?crid=JWWFS9QIGMAE&dib=eyJ2IjoiMSJ9.DCVVqqZFBw9GHZAe4mP1Vyqt67QJG7muqyUmw0JMFEisHiZgONYP9r5KoZgu_RX9RSCotv1X16RHWDHw8eEbn5hY6iSNn520Es4hNKP1EjpK3cBs4BEvm58vn8c6VfGsToa51mkfallntn3ICFIVQApG2Mn_4mtSWT_-YhCF2sUETkcQIWcyo0my3l3Zw6bkyupQZ94GScfZp2P7hTbz5-mb3lsGgP19FMGVOobn68dvrXFqnT_DmVnglpNDDA9KAGvK2ZrZD18RIs-_tFIb594LPKmPGHxbnQaBksJwZdQ.7H20C11vvhJf8bQ3FkGP6s6hZkbZa1FETN8Jsc3mCq4&dib_tag=se&keywords=100+watt+incandescent+light+bulbs&qid=1748018291&sprefix=100+watt+incandes+light+bulbs,aps,90&sr=8-6" target="_blank">here</a>)</p></li>
+<li><p>Light buld stand that can be wired into the relay of Arduino Opta</p></li>
+</ul>
+<p>We will need the following software</p>
+<ul class="simple">
+<li><p>Arduino IDE (Download it <a href="https://www.arduino.cc/en/software/" target="_blank">here</a>)</p></li>
+<li><p>Install VScode on R1000. Follow instructions <a href="https://code.visualstudio.com/" target="_blank">here</a>.</p></li>
+<li><p>Install pymodbus Python library on R1000. Follow instructions <a href="https://github.com/pymodbus-dev/pymodbus/?tab=readme-ov-file#install" target="_blank">here</a>.</p></li>
+<li><p>Install BACpypes3 Python library on R1000 and your BACnet client laptop. Follow instructions <a href="https://github.com/pymodbus-dev/pymodbus/?tab=readme-ov-file#install" target="_blank">here</a>.</p></li>
+</ul>
+</section>
+<section id="instructions">
+<h2><span class="section-number">6.2. </span>Instructions<a class="headerlink" href="#instructions" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Wire and connect your equipment as shown.</p></li>
+</ol>
+<a class="reference internal image-reference" href="../../_images/tabletop1.png"><img alt="../../_images/tabletop1.png" class="align-center" src="../../_images/tabletop1.png" style="width: 100%;" /></a>
+<p><br/><br/></p>
+<ol class="arabic simple" start="2">
+<li><p>The connected devices shown below.</p></li>
+</ol>
+<a class="reference internal image-reference" href="../../_images/tabletop2.jpg"><img alt="../../_images/tabletop2.jpg" class="align-center" src="../../_images/tabletop2.jpg" style="width: 100%;" /></a>
+<p><br/><br/></p>
+</section>
+<section id="configure-thermostat-and-opta">
+<h2><span class="section-number">6.3. </span>Configure Thermostat and Opta<a class="headerlink" href="#configure-thermostat-and-opta" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Once connected we need to configure settings on the Belimo thermostat for the connection. Download the ‘Belimo Assistant 2’ app on your NFC enabled phone. Select the NFC option to connect to a device. Follow the instruction to connect to your thermostat. Once connected go to Setup -&gt; Communication. Change the parameters to the following and ‘Write to Device’ through NFC:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Bus</span> <span class="n">Protocol</span><span class="p">:</span> <span class="n">Modbus</span> <span class="n">RTU</span>
+<span class="n">Address</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Baudrate</span><span class="p">:</span> <span class="mi">38400</span>
+<span class="n">Terminating</span> <span class="n">Resistor</span><span class="p">:</span> <span class="n">Off</span>
+<span class="n">Parity</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">8</span><span class="o">-</span><span class="n">N</span><span class="o">-</span><span class="mi">2</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../../_images/opta_tstat3.png"><img alt="../../_images/opta_tstat3.png" class="align-center" src="../../_images/opta_tstat3.png" style="width: 30%;" /></a>
+<p><br/><br/></p>
+<ol class="arabic simple" start="2">
+<li><p>Once configured we need to do some programming on the Arduino Opta, connect the Opta to your laptop installed with Arduino IDE using the USB-C. Open the Arduino IDE. Copy and paste the following script onto the IDE and upload it to Opta.</p></li>
+</ol>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">ctrl_belimo_tstat</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/**
+Getting started with Opta and Belimo
+Purpose: Read and write registers from Belimo 22rth 5900ud
+@author Kian Wee Chen
+*/
+#include &lt;SPI.h&gt;
+#include &lt;Ethernet.h&gt;
+#include &lt;ArduinoRS485.h&gt; // ArduinoModbus depends on the ArduinoRS485 library
+#include &lt;ArduinoModbus.h&gt;
+
+constexpr auto baudrate { 38400 };
+// Calculate preDelay and postDelay in microseconds as per Modbus RTU Specification
+// MODBUS over serial line specification and implementation guide V1.02
+// Paragraph 2.5.1.1 MODBUS Message RTU Framing
+// https://modbus.org/docs/Modbus_over_serial_line_V1_02.pdf
+constexpr auto bitduration { 1.f / baudrate };
+constexpr auto preDelayBR { bitduration * 9.6f * 3.5f * 1e6 };
+constexpr auto postDelayBR { bitduration * 9.6f * 3.5f * 1e6 };
+
+//-------------------------------------------------------
+//Modbus tcp/ip
+//-------------------------------------------------------
+// Define the IP address for the Modbus TCP server
+IPAddress ip(10, 0, 0, 227);
+IPAddress dns(10, 0, 0, 228);
+IPAddress gateway(10, 0, 0, 229);
+IPAddress subnet(255, 255, 255, 0);
+// Server will listen on Modbus TCP standard port 502
+EthernetServer ethServer(502);
+// Create a Modbus TCP server instance
+ModbusTCPServer modbusTCPServer;
+//-------------------------------------------------------
+
+int server_id = 1;
+int setpt_addr = 21; //21 is the setpoint temp
+double setpt_scale = 0.01; // according to the belimo thermostat documentation
+int airtemp_addr=0; // 0 is the air temp
+double airtemp_scale = 0.01; // according to the belimo thermostat documentation
+int onOff_htg = 0; // indicator if the relays are on/off, 0=Off, 1=On
+int onOff_clg = 0; // indicator if the relays are on/off, 0=Off, 1=On
+double deadband = 0.5; //degC
+
+void setup() {
+    // Initialize Relays outputs
+    pinMode(D0, OUTPUT);
+    pinMode(D1, OUTPUT);
+    // Initialize OPTA LEDs
+    pinMode(LED_D0, OUTPUT);
+    pinMode(LED_D1, OUTPUT);
+
+    Serial.begin(9600);
+    // while (!Serial);
+    // Serial.println(&quot;Modbus RTU Client&quot;);
+
+    RS485.setDelays(preDelayBR, postDelayBR);
+    // Start the Modbus RTU client
+    if (!ModbusRTUClient.begin(baudrate, SERIAL_8N2)) {
+        Serial.println(&quot;Failed to start Modbus RTU Client!&quot;);
+        while (1);
+        }
+    //-------------------------------------------------------
+    //Modbus tcp/ip
+    //-------------------------------------------------------
+    Ethernet.begin(NULL, ip, dns, gateway, subnet);
+    // Check Ethernet hardware and cable connections
+    if (Ethernet.hardwareStatus() == EthernetNoHardware) {
+        Serial.println(&quot;- Ethernet interface not found!&quot;);
+        while (true);
+    }
+    if (Ethernet.linkStatus() == LinkOFF) {
+        Serial.println(&quot;- Ethernet cable not connected!&quot;);
+    }
+    // Start the Modbus TCP server
+    ethServer.begin();
+    if (!modbusTCPServer.begin()) {
+        Serial.println(&quot;- Failed to start Modbus TCP Server!&quot;);
+        while (1);
+    }
+    // Configure a holding register at address 0 for Modbus communication
+    int success = modbusTCPServer.configureHoldingRegisters(0, 1);
+    Serial.println(success);
+    //-------------------------------------------------------
+}
+
+void loop() {
+    int setpt_raw = ModbusRTUClient.holdingRegisterRead(server_id, setpt_addr);
+    int airtemp_raw = ModbusRTUClient.inputRegisterRead(server_id, airtemp_addr);
+    if (setpt_raw != -1 &amp;&amp; setpt_raw != -1) {
+        writeSetptOptaReg(setpt_raw);
+        double setpt = setpt_raw * setpt_scale;
+        double airtemp = airtemp_raw * airtemp_scale;
+        double temp_diff = setpt - airtemp; // if positive heat, if negative cool
+        // Serial.println(setpt);
+        // Serial.println(airtemp);
+        if (airtemp &lt; setpt) {
+            //need to heat
+            if (temp_diff &gt; deadband) {
+                turnOffClgRelay();
+                turnOnHtgRelay();
+            } else {
+                turnOffClgRelay();
+                turnOffHtgRelay();
+            }
+        
+        } else if (airtemp &gt; setpt) {
+            //need to cool
+            if (temp_diff*-1 &gt; deadband) {
+                turnOffHtgRelay();
+                turnOnClgRelay();
+            } else {
+                turnOffClgRelay();
+                turnOffHtgRelay();
+            }
+        } else {
+            // air temp is equal to setpoint no heating or cooling is required
+            // switch off all the relay
+            turnOffClgRelay();
+            turnOffHtgRelay();
+        }
+
+    } else {
+        Serial.print(&quot;failed! &quot;);
+        Serial.println(ModbusRTUClient.lastError());
+    }
+    //-------------------------------------------------------
+    //Modbus tcp/ip
+    //-------------------------------------------------------
+    // Handle incoming client connections and process Modbus requests
+    EthernetClient client = ethServer.available();
+    if (client) {
+        Serial.println(&quot;- Client connected!&quot;);
+        // Accept and handle the client connection for Modbus communication
+        modbusTCPServer.accept(client);
+        // Update the LED state based on Modbus holding register value
+        while (client.connected()) {
+            // Process Modbus requests
+            modbusTCPServer.poll(); 
+            updateSetptReg();
+        }
+        Serial.println(&quot;Client disconnected.&quot;);
+    }
+    //-------------------------------------------------------
+    delay(10000);
+    // Serial.println();
+}
+
+void updateSetptReg() {
+    // Read the current value at address 0, this is the setpt from the thermostat exposed by the arduino opta modbus interface.
+    int setptVal = modbusTCPServer.holdingRegisterRead(0);
+    // write the new value to the thermostat
+    writeSetptTstatReg(setptVal);
+}
+
+void writeSetptTstatReg(int setptVal) {
+    int regwrite = ModbusRTUClient.holdingRegisterWrite(server_id, setpt_addr, setptVal);
+    if (regwrite == 0) {
+        Serial.println(&quot;Writing to Tstat Holding Register Failed&quot;);    
+    }
+}
+
+void writeSetptOptaReg(int setptVal) {
+    int regwrite = modbusTCPServer.holdingRegisterWrite(0, setptVal);
+    if (regwrite == 0) {
+        Serial.println(&quot;Writing to Opta Holding Register Failed!&quot;);    
+    }
+}
+
+void turnOnClgRelay() {
+if (onOff_clg == 0) {
+        // turn on the relay
+        digitalWrite(D1, HIGH);
+        digitalWrite(LED_D1, HIGH);
+        onOff_clg = 1;
+    }
+}
+
+void turnOffClgRelay() {
+if (onOff_clg == 1) {
+        // turn off the relay
+        digitalWrite(D1, LOW);
+        digitalWrite(LED_D1, LOW);
+        onOff_clg = 0;
+    }
+}
+
+void turnOnHtgRelay() {
+if (onOff_htg == 0) {
+        // turn on the relay
+        digitalWrite(D0, HIGH);
+        digitalWrite(LED_D0, HIGH);
+        onOff_htg = 1;
+    }
+}
+
+void turnOffHtgRelay() {
+if (onOff_htg == 1) {
+        // turn on the relay
+        digitalWrite(D0, LOW);
+        digitalWrite(LED_D0, LOW);
+        onOff_htg = 0;
+    }
+}
+</pre></div>
+</div>
+</div>
+</details></section>
+<section id="configure-seeed-studio-r1000">
+<h2><span class="section-number">6.4. </span>Configure Seeed Studio R1000<a class="headerlink" href="#configure-seeed-studio-r1000" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>In the Raspberry Pi OS environment configure the wired connection to read from the connected Opta.</p></li>
+</ol>
+<ul class="simple">
+<li><p>Go to the network settings -&gt; Advanced Options -&gt; Edit Connections …</p></li>
+<li><p>In the network connections window select Wired Connection 1 -&gt; setting symbol</p></li>
+<li><p>In the Editing Wired Connection 1 window go to the IPv4 Settings tab. Change the method to ‘Manual’. Click on the Add button and add in the following parameters and save the setting:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Address</span><span class="p">:</span> <span class="mf">10.0.0.230</span>
+<span class="n">Netmask</span><span class="p">:</span> <span class="mf">255.255.255.0</span>
+<span class="n">Gateway</span><span class="p">:</span> <span class="mf">10.0.0.229</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../../_images/opta_r1000_modbus3.png"><img alt="../../_images/opta_r1000_modbus3.png" class="align-center" src="../../_images/opta_r1000_modbus3.png" style="width: 100%;" /></a>
+<p><br/><br/></p>
+<ol class="arabic simple" start="2">
+<li><p>Copy and past this code into a file called bacnet_server4opta.py on the R1000.</p></li>
+</ol>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">bacnet_server4opta.py</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&quot;&quot;&quot;
+R1000 BACnet Device Example
+==========================
+
+This script initializes a minimal BACnet server device using BACpypes3.
+It is ideal for rapid prototyping and testing with BACnet client tools
+or supervisory platforms. You can easily add or remove objects to fit your use case.
+
+Included Objects:
+-----------------
+- 1 Commandable Analog Value (AV)
+- 1 Commandable Binary Value (BV)
+
+Commandable Points:
+-------------------
+Commandable AV and BV points support writes via the BACnet priority array.
+They emulate real-world control points, such as thermostat setpoints, damper commands, etc.
+
+Usage:
+------
+Run the script with the device name, instance ID, and optional debug flag:
+
+    python mini-device-revisited.py --name BensServerTest --instance 3456789 --debug
+
+Arguments:
+----------
+- --name       : The BACnet device name (e.g., &quot;BensServerTest&quot;)
+- --instance   : The BACnet device instance ID (e.g., 3456789)
+- --address    : Optional — override the automatically detected IP address and port.
+                Requires ifaddr package for auto-detection.
+                See: https://bacpypes3.readthedocs.io/en/latest/gettingstarted/addresses.html#bacpypes3-addresses
+- --debug      : Enables verbose debug logging (built-in to BACpypes3)
+
+&quot;&quot;&quot;
+import asyncio
+import sys
+from enum import Enum
+from time import sleep
+from datetime import date
+
+from bacpypes3.argparse import SimpleArgumentParser
+from bacpypes3.app import Application
+from bacpypes3.local.analog import AnalogValueObject
+from bacpypes3.local.binary import BinaryValueObject
+from bacpypes3.local.cmd import Commandable
+from bacpypes3.debugging import bacpypes_debugging, ModuleLogger
+
+from pymodbus.client import ModbusTcpClient
+from pymodbus.exceptions import ModbusException
+
+#------------------------------------------------------------------------------------------------------------
+# FUNCTIONS
+#------------------------------------------------------------------------------------------------------------
+def write_register(client: ModbusTcpClient, addr: int, value: int) -&gt; None:
+    &quot;&quot;&quot;Write a register.&quot;&quot;&quot;
+    try:
+        rr = client.write_register(addr, value)
+        print(f&quot;write is {rr}, Value = {value}&quot;)
+    except ModbusException as exc:
+        print(f&quot;Modbus exception: {exc!s}&quot;)
+
+def read_register(client: ModbusTcpClient, addr: int, format: str, reg_type: str = &#39;Holding Register&#39;) -&gt; int:
+    &quot;&quot;&quot;
+    read a register.
+
+    Parameters
+    ----------
+    client : ModbusTcpClient
+        modbus client object
+    
+    addr: int
+        address of the register
+
+    format: str
+        h=int16, H=uint16, i=int32 ,I=uint32, q=int64, Q=uint64, f=float32, d=float64, s=string, bits
+    
+    reg_type: str, optional
+        default is Holding Register. Options are Input Register
+    
+    Returns
+    -------
+    vertices : np.ndarray
+        np.ndarray(shape(number of edges, number of points in an edge, 3)) vertices of the line
+    &quot;&quot;&quot;
+    value = None
+    data_type = get_data_type(format)
+    # print(data_type)
+    count = data_type.value[1]
+    var_type = data_type.name
+    # print(f&quot;*** Reading register({var_type})&quot;)
+    try:
+        if reg_type == &#39;Holding Register&#39;:
+            rr = client.read_holding_registers(address=addr, count=count, slave=1)
+        elif reg_type == &#39;Input Register&#39;:
+            rr = client.read_input_registers(address=addr, count=count, slave=1)
+        value = client.convert_from_registers(rr.registers, data_type)
+    except ModbusException as exc:
+        print(f&quot;Modbus exception: {exc!s}&quot;)
+    return value
+
+def get_data_type(format: str) -&gt; Enum:
+    &quot;&quot;&quot;Return the ModbusTcpClient.DATATYPE according to the format&quot;&quot;&quot;
+    for data_type in ModbusTcpClient.DATATYPE:
+        if data_type.value[0] == format:
+            return data_type
+#------------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------------------------------
+# Modbus TCP/IP parameters
+HOST = &quot;10.0.0.227&quot; # change it to the modbus device of interest
+PORT = 502
+setpt_addr = 0
+setpt_scalg = 0.01
+
+# Debug logging setup
+_debug = 0
+_log = ModuleLogger(globals())
+
+# Interval for updating values
+INTERVAL = 5.0
+
+@bacpypes_debugging
+class CommandableAnalogValueObject(Commandable, AnalogValueObject):
+    &quot;&quot;&quot;Commandable Analog Value Object&quot;&quot;&quot;
+
+@bacpypes_debugging
+class CommandableBinaryValueObject(Commandable, BinaryValueObject):
+    &quot;&quot;&quot;Commandable Binary Value Object&quot;&quot;&quot;
+
+@bacpypes_debugging
+class SampleApplication:
+    def __init__(self, args):
+        if _debug:
+            _log.debug(&quot;Initializing SampleApplication&quot;)
+
+        self.app = Application.from_args(args)
+
+        self.commandable_av = CommandableAnalogValueObject(
+            objectIdentifier=(&quot;analogValue&quot;, 1),
+            objectName=&quot;tstat-setpt&quot;,
+            presentValue=0.0,
+            statusFlags=[0, 0, 0, 0],
+            covIncrement=1.0,
+            units=&quot;degreesCelsius&quot;,
+            description=&quot;Setpoint Temperature of the Belimo Tstat&quot;,
+        )
+
+        for obj in [
+            self.commandable_av
+        ]:
+            self.app.add_object(obj)
+
+        _log.info(&quot;BACnet Objects initialized.&quot;)
+        asyncio.create_task(self.update_values())
+
+    async def update_values(self):
+        prev_setpt = 0
+        while True:
+            await asyncio.sleep(INTERVAL)
+            # get the present setpt value of bacnet
+            setpt_val = self.commandable_av.presentValue
+            # get the tstat val
+            client: ModbusTcpClient = ModbusTcpClient(
+                host=HOST,
+                port=PORT
+            )
+            client.connect()
+            sleep(1)
+            modbus_setpt_val = read_register(client, setpt_addr, &#39;H&#39;)
+            if modbus_setpt_val != None:
+                modbus_setpt_val_flt = modbus_setpt_val*setpt_scalg
+                if setpt_val == 0.0:
+                    # it means this is the 1st loop
+                    self.commandable_av.presentValue = modbus_setpt_val_flt
+                    prev_setpt = modbus_setpt_val_flt
+                else:
+                    # this is not the 1st loop prev_setpt cannt be 0
+                    if setpt_val != prev_setpt: # new write to the bacnet setpt
+                        if modbus_setpt_val_flt != prev_setpt: # new write from the thermostat
+                            # thermostat always take priority, overwrite bacnet
+                            self.commandable_av.presentValue = modbus_setpt_val_flt
+                            prev_setpt = modbus_setpt_val_flt
+                        elif modbus_setpt_val_flt == prev_setpt: # no new write from thermostat
+                            write_register(client, setpt_addr, int(setpt_val/setpt_scalg))
+                            prev_setpt = setpt_val
+                    else: # no write from bacnet
+                        if modbus_setpt_val_flt != prev_setpt: # new write from the thermostat
+                            # expose the thermostat setpt
+                            self.commandable_av.presentValue = modbus_setpt_val_flt
+                            prev_setpt = modbus_setpt_val_flt
+
+            client.close()
+
+            if _debug:
+                _log.debug(f&quot;Commandable AV: {self.commandable_av.presentValue}&quot;)
+
+async def main():
+    global _debug
+
+    parser = SimpleArgumentParser()
+    args = parser.parse_args()
+
+    if args.debug:
+        _debug = 1
+        _log.set_level(&quot;DEBUG&quot;)
+        _log.debug(&quot;Debug mode enabled&quot;)
+
+    if _debug:
+        _log.debug(f&quot;Parsed arguments: {args}&quot;)
+
+    app = SampleApplication(args)
+    await asyncio.Future()
+
+
+if __name__ == &quot;__main__&quot;:
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        _log.info(&quot;Keyboard interrupt received, shutting down.&quot;)
+        sys.exit(0)
+</pre></div>
+</div>
+</div>
+</details><ol class="arabic simple" start="3">
+<li><p>Assuming you are connected to a Wifi network. You can essentially create a wifi hotspot from your BACnet client laptop. On the R1000 execute the bacnet_server.py code with the following command. Replacing the –address with your ip4 address. You can now access your setup from another bacnet client laptop.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">bacnet_server4opta</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">address</span> <span class="n">xx</span><span class="o">.</span><span class="n">xx</span><span class="o">.</span><span class="n">xx</span><span class="o">.</span><span class="n">xx</span><span class="o">/</span><span class="mi">24</span> <span class="o">--</span><span class="n">name</span> <span class="n">bacnet_device</span> <span class="o">--</span><span class="n">instance</span> <span class="mi">1</span> <span class="o">--</span><span class="n">debug</span>
+</pre></div>
+</div>
+</section>
+<section id="accessing-r1000-bacnet-server-from-you-bacnet-client-laptop">
+<h2><span class="section-number">6.5. </span>Accessing R1000 BACnet Server from you BACnet client laptop<a class="headerlink" href="#accessing-r1000-bacnet-server-from-you-bacnet-client-laptop" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Make sure your BACnet client laptop is connected to the same Wifi network as the R1000. You can discover the R1000 BACnet server using <a class="reference internal" href="04_bacnet_server.html#accessing-the-bacnet-server-from-a-bacnet-client"><span class="std std-ref">the ‘read_device_obj_props_simple.py’ script from step 1</span></a>.</p></li>
+<li><p>You should be able to get the following result.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">device</span><span class="p">,</span><span class="mi">1</span> <span class="o">@</span> <span class="mf">10.42.0.159</span><span class="p">,</span> <span class="kn">from</span><span class="w"> </span><span class="nn">vendor</span><span class="o">-</span><span class="mi">999</span>
+<span class="n">device</span><span class="p">,</span><span class="mi">1</span> <span class="n">description</span> <span class="n">error</span><span class="p">:</span> <span class="nb">property</span><span class="p">:</span> <span class="n">unknown</span><span class="o">-</span><span class="nb">property</span>
+
+    <span class="n">device</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">-</span><span class="n">name</span><span class="p">:</span> <span class="n">rm_device</span>
+    <span class="n">network</span><span class="o">-</span><span class="n">port</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">-</span><span class="n">name</span><span class="p">:</span> <span class="n">NetworkPort</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">analog</span><span class="o">-</span><span class="n">value</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span>
+        <span class="nb">object</span><span class="o">-</span><span class="n">name</span><span class="p">:</span> <span class="n">tstat</span><span class="o">-</span><span class="n">setpt</span>
+        <span class="n">description</span><span class="p">:</span> <span class="n">Setpoint</span> <span class="n">Temperature</span> <span class="n">of</span> <span class="n">the</span> <span class="n">Belimo</span> <span class="n">Tstat</span>
+        <span class="n">present</span><span class="o">-</span><span class="n">value</span><span class="p">:</span> <span class="mf">24.0</span>
+        <span class="n">units</span><span class="p">:</span> <span class="n">degrees</span><span class="o">-</span><span class="n">celsius</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>You can use these <a class="reference internal" href="04_bacnet_server.html#other-useful-scripts-read-and-write-multiple"><span class="std std-ref">scripts</span></a> to read and write from the BACnet server.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./docs/02"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04_bacnet_server.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>BACnet TCP/IP server with BACpypes</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-and-software">6.1. Hardware and software</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">6.2. Instructions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-thermostat-and-opta">6.3. Configure Thermostat and Opta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-seeed-studio-r1000">6.4. Configure Seeed Studio R1000</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-r1000-bacnet-server-from-you-bacnet-client-laptop">6.5. Accessing R1000 BACnet Server from you BACnet client laptop</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Kian Wee Chen
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
