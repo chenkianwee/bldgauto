@@ -14,4 +14,6 @@ parts:
   - file: docs/02/01_opta_tstat
   - file: docs/02/02_opta_r1000_modbus
   - file: docs/02/03_r1000_tstat
+  - file: docs/02/04_bacnet_server
+  - file: docs/02/05_tabletop
   
