@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>2. Arduino Opta and Belimo Thermostat Modbus RTU &#8212; Building Automation</title>
+    <title>7. Arduino Opta, Belimo Thermostat Modbus RTU and FROST-Server &#8212; Building Automation</title>
   
   
   
@@ -60,11 +60,11 @@
     <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/02/01_opta_tstat';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/02/06_opta_tstat_frost';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="3. Arduino Opta and Seeed Studio reComputer r1000 Modbus TCP/IP" href="02_opta_r1000_modbus.html" />
-    <link rel="prev" title="1. Concepts" href="../01/concepts.html" />
+    <link rel="next" title="8. Wifi for Opta" href="../03/01_opta_wifi.html" />
+    <link rel="prev" title="6. Tabletop Prototype" href="05_tabletop.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -168,12 +168,12 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Arduino Opta and Belimo Thermostat Modbus RTU</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_opta_tstat.html">2. Arduino Opta and Belimo Thermostat Modbus RTU</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_opta_r1000_modbus.html">3. Arduino Opta and Seeed Studio reComputer r1000 Modbus TCP/IP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03_r1000_tstat.html">4. Seeed Studio reComputer r1000 and Belimo Thermostat Modbus RTU</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04_bacnet_server.html">5. BACnet TCP/IP server with BACpypes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05_tabletop.html">6. Tabletop Prototype</a></li>
-<li class="toctree-l1"><a class="reference internal" href="06_opta_tstat_frost.html">7. Arduino Opta, Belimo Thermostat Modbus RTU and FROST-Server</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. Arduino Opta, Belimo Thermostat Modbus RTU and FROST-Server</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">How-Tos</span></p>
 <ul class="nav bd-sidenav">
@@ -254,7 +254,7 @@
       
       
       
-      <li><a href="https://github.com/chenkianwee/bldgauto/issues/new?title=Issue%20on%20page%20%2Fdocs/02/01_opta_tstat.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/chenkianwee/bldgauto/issues/new?title=Issue%20on%20page%20%2Fdocs/02/06_opta_tstat_frost.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -284,7 +284,7 @@
       
       
       
-      <li><a href="../../_sources/docs/02/01_opta_tstat.md" target="_blank"
+      <li><a href="../../_sources/docs/02/06_opta_tstat_frost.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -360,7 +360,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Arduino Opta and Belimo Thermostat Modbus RTU</h1>
+    <h1>Arduino Opta, Belimo Thermostat Modbus RTU and FROST-Server</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -370,9 +370,8 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-and-software">2.1. Hardware and software</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">2.2. Instructions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resource">2.3. Resource</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-and-software">7.1. Hardware and software</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">7.2. Instructions</a></li>
 </ul>
             </nav>
         </div>
@@ -384,10 +383,10 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="arduino-opta-and-belimo-thermostat-modbus-rtu">
-<h1><span class="section-number">2. </span>Arduino Opta and Belimo Thermostat Modbus RTU<a class="headerlink" href="#arduino-opta-and-belimo-thermostat-modbus-rtu" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="arduino-opta-belimo-thermostat-modbus-rtu-and-frost-server">
+<h1><span class="section-number">7. </span>Arduino Opta, Belimo Thermostat Modbus RTU and FROST-Server<a class="headerlink" href="#arduino-opta-belimo-thermostat-modbus-rtu-and-frost-server" title="Link to this heading">#</a></h1>
 <section id="hardware-and-software">
-<h2><span class="section-number">2.1. </span>Hardware and software<a class="headerlink" href="#hardware-and-software" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">7.1. </span>Hardware and software<a class="headerlink" href="#hardware-and-software" title="Link to this heading">#</a></h2>
 <p>For this tutorial we will need the following hardware</p>
 <ul class="simple">
 <li><p>Arduino Opta Wifi (Can be bought <a href="https://store.arduino.cc/products/opta-wifi?queryID=undefined" target="_blank">here</a>)</p></li>
@@ -404,18 +403,19 @@
 </ul>
 </section>
 <section id="instructions">
-<h2><span class="section-number">2.2. </span>Instructions<a class="headerlink" href="#instructions" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">7.2. </span>Instructions<a class="headerlink" href="#instructions" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
+<li><p>Install the FROST-Server on a computer. Follow the instruction <a href="https://chenkianwee.github.io/yun2infinity/docs/040/0413deploy.html" target="_blank">here</a>. Make sure your FROST-Server computer and your Arduino is connected to the same wifi if you are doing a local network version.</p></li>
 <li><p>Wire your Opta to the thermostat as shown below:</p></li>
 </ol>
-<a class="reference internal image-reference" href="../../_images/opta_tstat1.png"><img alt="../../_images/opta_tstat1.png" class="align-center" src="../../_images/opta_tstat1.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/opta_tstat_frost1.png"><img alt="../../_images/opta_tstat_frost1.png" class="align-center" src="../../_images/opta_tstat_frost1.png" style="width: 100%;" /></a>
 <p><br/><br/></p>
-<ol class="arabic simple" start="2">
+<ol class="arabic simple" start="3">
 <li><p>The connected devices shown below.</p></li>
 </ol>
 <a class="reference internal image-reference" href="../../_images/opta_tstat2.jpg"><img alt="../../_images/opta_tstat2.jpg" class="align-center" src="../../_images/opta_tstat2.jpg" style="width: 100%;" /></a>
 <p><br/><br/></p>
-<ol class="arabic simple" start="3">
+<ol class="arabic simple" start="4">
 <li><p>Once connected we need to configure settings on the Belimo thermostat for the connection. Download the ‘Belimo Assistant 2’ app on your NFC enabled phone. Select the NFC option to connect to a device. Follow the instruction to connect to your thermostat. Once connected go to Setup -&gt; Communication. Change the parameters to the following and ‘Write to Device’ through NFC:</p></li>
 </ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Bus</span> <span class="n">Protocol</span><span class="p">:</span> <span class="n">Modbus</span> <span class="n">RTU</span>
@@ -427,23 +427,44 @@
 </div>
 <a class="reference internal image-reference" href="../../_images/opta_tstat3.png"><img alt="../../_images/opta_tstat3.png" class="align-center" src="../../_images/opta_tstat3.png" style="width: 30%;" /></a>
 <p><br/><br/></p>
-<ol class="arabic simple" start="4">
+<ol class="arabic simple" start="5">
 <li><p>Once configured we need to do some programming on the Arduino Opta. Open the Arduino IDE. Copy and paste the following script onto the IDE and upload it to Opta.</p></li>
 </ol>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
 <summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">read_belimo_tstat</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/**
-Getting started with Opta and Belimo
-Purpose: Read and write registers from Belimo 22rth 5900ud
-@author Kian Wee Chen
-*/
-
-#include &lt;ArduinoModbus.h&gt;
+<span class="sd-summary-text">read_belimo_tstat_post</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#include &lt;SPI.h&gt;
 #include &lt;ArduinoRS485.h&gt; // ArduinoModbus depends on the ArduinoRS485 library
+#include &lt;ArduinoModbus.h&gt;
+#include &lt;WiFi.h&gt;
+#include &quot;secrets.h&quot; 
+#include &lt;NTPClient.h&gt;
+#include &lt;mbed_mktime.h&gt;
+#include &quot;Base64.h&quot;
+#include &lt;ArduinoJson.h&gt;
 
+//------------------------------------------------------------------------
+// Wifi Settings
+char ssid[] = SECRET_SSID;        // your network SSID (name)
+char pass[] = SECRET_PASS;        // your network password (use for WPA, or use as key for WEP)
+int keyIndex = 0;                 // your network key Index number (needed only for WEP)
+
+const char* authUser = &quot;admin&quot;;
+const char* authPass = &quot;admin&quot;;
+
+int status = WL_IDLE_STATUS;
+WiFiClient client;
+//------------------------------------------------------------------------
+RTC_DS3231 rtc;
+// NTP client configuration and RTC update interval.
+WiFiUDP   ntpUDP;
+// NTPClient timeClient(ntpUDP, &quot;pool.ntp.org&quot;, 9*3600, 0);
+NTPClient timeClient(ntpUDP, &quot;pool.ntp.org&quot;, 0, 0); //UTC time
+// Display time every 5 seconds.
+unsigned long interval = 5000UL;
+unsigned long lastTime = 0;
+//------------------------------------------------------------------------
 constexpr auto baudrate { 38400 };
-
 // Calculate preDelay and postDelay in microseconds as per Modbus RTU Specification
 // MODBUS over serial line specification and implementation guide V1.02
 // Paragraph 2.5.1.1 MODBUS Message RTU Framing
@@ -457,75 +478,235 @@ int setpt_addr = 21; //21 is the setpoint temp
 double setpt_scale = 0.01; // according to the belimo thermostat documentation
 int airtemp_addr=0; // 0 is the air temp
 double airtemp_scale = 0.01; // according to the belimo thermostat documentation
+int onOff_htg = 0; // indicator if the relays are on/off, 0=Off, 1=On
+int onOff_clg = 0; // indicator if the relays are on/off, 0=Off, 1=On
+double deadband = 0.5; //degC
 
 void setup() {
     Serial.begin(9600);
-    while (!Serial);
+    // while (!Serial);
+    // Serial.println(&quot;Modbus RTU Client&quot;);
+    //------------------------------------------------------------------------
+    // Wifi settings
+    // check for the WiFi module:
+    if (WiFi.status() == WL_NO_SHIELD) {
+        Serial.println(&quot;Communication with WiFi module failed!&quot;);
+        // don&#39;t continue
+        while (true);
+    }
 
-    Serial.println(&quot;Modbus RTU Client&quot;);
+    // attempt to connect to Wifi network:
+    while (status != WL_CONNECTED) {
+        Serial.print(&quot;Attempting to connect to SSID: &quot;);
+        Serial.println(ssid);
+        // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
+        status = WiFi.begin(ssid, pass);
+        // wait 3 seconds for connection:
+        delay(3000);
+    }
+    
+    Serial.println(&quot;Connected to wifi&quot;);
+    printWifiStatus();
+    //------------------------------------------------------------------------
+    // NTP client object initialization and time update, display updated time on the Serial Monitor.
+    timeClient.begin();
+    timeClient.update();
+    const unsigned long epoch = timeClient.getEpochTime();
+    set_time(epoch);
+
+    // Show the synchronized time.
+    Serial.println();
+    Serial.println(&quot;- TIME INFORMATION:&quot;);
+    Serial.print(&quot;- RTC time: &quot;);
+    Serial.println(getLocalTime());
+    //------------------------------------------------------------------------
+    // Initialize Relays outputs
+    // pinMode(D0, OUTPUT);
+    // pinMode(D1, OUTPUT);
+    // Initialize OPTA LEDs
+    pinMode(LED_D0, OUTPUT);
+    pinMode(LED_D1, OUTPUT);
 
     RS485.setDelays(preDelayBR, postDelayBR);
-
     // Start the Modbus RTU client
     if (!ModbusRTUClient.begin(baudrate, SERIAL_8N2)) {
         Serial.println(&quot;Failed to start Modbus RTU Client!&quot;);
         while (1);
-    }
+        }
 }
 
 void loop() {
+    //get the current time
+    int dsId = 1;
+    // String timeNow = Time.format(Time.now(), TIME_FORMAT_ISO8601_FULL);
+    String timeNow = getLocalTime();
+
     int setpt_raw = ModbusRTUClient.holdingRegisterRead(server_id, setpt_addr);
-    if (setpt_raw != -1) {
-    double setpt = setpt_raw * setpt_scale;
-    Serial.println(setpt);
-    if (setpt != 28.0) {
-        // set it to 28
-        int regwrite = ModbusRTUClient.holdingRegisterWrite(server_id, setpt_addr, 2800);
-        if (regwrite == 1) {
-            Serial.println(&quot;Success!&quot;);    
-        } else {
-            Serial.println(&quot;Failed!&quot;);
-        }
-    } else {
-        // if it is equal to 28
-        int regwrite = ModbusRTUClient.holdingRegisterWrite(server_id, setpt_addr, 1800);
-        if (regwrite == 1) {
-            Serial.println(&quot;Success!&quot;);    
-        } else {
-            Serial.println(&quot;Failed!&quot;);
-        }
-    }
-
-    } else {
-        Serial.print(&quot;failed! &quot;);
-        Serial.println(ModbusRTUClient.lastError());
-    }
-
     int airtemp_raw = ModbusRTUClient.inputRegisterRead(server_id, airtemp_addr);
-    if (airtemp_raw != -1) {
+    if (setpt_raw != -1 &amp;&amp; setpt_raw != -1) {
+        double setpt = setpt_raw * setpt_scale;
         double airtemp = airtemp_raw * airtemp_scale;
+        double temp_diff = setpt - airtemp; // if positive heat, if negative cool
+        Serial.println(setpt);
         Serial.println(airtemp);
+        //-------------------------------------------------------------------------------------------------------------------------
+        // post the data to FROST server
+        JsonDocument doc1;
+        doc1[&quot;@iot.id&quot;] = dsId;
+        JsonDocument doc2;
+        doc2[&quot;phenomenonTime&quot;] = timeNow;
+        doc2[&quot;resultTime&quot;] = timeNow;
+        doc2[&quot;result&quot;] = airtemp;
+        doc2[&quot;Datastream&quot;] = doc1;
+        String jsonData;
+        serializeJson(doc2, jsonData);
+        Serial.println(jsonData);
+        post2Frost(jsonData);
+        //-------------------------------------------------------------------------------------------------------------------------
+        if (airtemp &lt; setpt) {
+            //need to heat
+            if (temp_diff &gt; deadband) {
+                turnOffClgRelay();
+                turnOnHtgRelay();
+            } else {
+                turnOffClgRelay();
+                turnOffHtgRelay();
+            }
+        
+        } else if (airtemp &gt; setpt) {
+            //need to cool
+            if (temp_diff*-1 &gt; deadband) {
+                turnOffHtgRelay();
+                turnOnClgRelay();
+            } else {
+                turnOffClgRelay();
+                turnOffHtgRelay();
+            }
+        } else {
+            // air temp is equal to setpoint no heating or cooling is required
+            // switch off all the relay
+            turnOffClgRelay();
+            turnOffHtgRelay();
+        }
+
     } else {
         Serial.print(&quot;failed! &quot;);
         Serial.println(ModbusRTUClient.lastError());
     }
-
+    
+    //-------------------------------------------------------------
     delay(10000);
-    Serial.println();
+    // Serial.println();
+}
+
+void post2Frost(String jsonData) {
+    //-------------------------------------------------------------
+    // Wifi Settings
+    // if you don&#39;t want to use DNS (and reduce your sketch size) use the numeric IP instead of the name for the server:
+    //// PUT IN YOUR OWN IP ADDRESS OR WEBPAGE THAT IS HOSTING YOUR FROST SERVER.
+    IPAddress server(127,0,0,1);  // IP address for example.com (no DNS)
+    // char server[] = &quot;databca.globalenvtech.com&quot;;       // host name for example.com (using DNS)
+    //// SPECIFY YOUR OWN USERNAME AND PASSWORD 
+    char authString[] = &quot;USERNAME:PASSWORD&quot;; //username + password
+    int inputStringLength = strlen(authString);
+    int encodedLength = Base64.encodedLength(inputStringLength);
+    int encodedLength2 = encodedLength + 1;
+    char encodedString[encodedLength2];
+    Base64.encode(encodedString, authString, inputStringLength);
+
+    // Construct HTTP POST request
+    if (client.connect(server, 80)) {
+        Serial.println(&quot;connected to server&quot;);
+        // Make a HTTP request:
+        client.println(&quot;POST /frost/v1.1/Observations HTTP/1.1&quot;);
+        client.print(&quot;Host: &quot;);
+        client.println(server);
+        client.println(&quot;Content-Type: application/json&quot;);
+        client.println(&quot;Authorization: Basic &quot; + String(encodedString));
+        client.print(&quot;Content-Length: &quot;);
+        client.println(jsonData.length());
+        client.println(); // End of headers
+        client.println(jsonData); // Body
+    }
+    // Waiting for the response is very slow and will take up to a minute. Just keep posting as we do not need to know.
+    // while (client.available()) {
+    //     char c = client.read();
+    //     Serial.write(c);
+    // }
+    // // Wait for response
+    // while (client.connected() || client.available()) {
+    //     if (client.available()) {
+    //     String line = client.readStringUntil(&#39;\n&#39;);
+    //     Serial.println(line);
+    //     }
+    // }
+    // client.stop();
+}
+
+void turnOnClgRelay() {
+if (onOff_clg == 0) {
+        // turn on the relay
+        // digitalWrite(D1, HIGH);
+        digitalWrite(LED_D1, HIGH);
+        onOff_clg = 1;
+    }
+}
+
+void turnOffClgRelay() {
+if (onOff_clg == 1) {
+        // turn off the relay
+        // digitalWrite(D1, LOW);
+        digitalWrite(LED_D1, LOW);
+        onOff_clg = 0;
+    }
+}
+
+void turnOnHtgRelay() {
+if (onOff_htg == 0) {
+        // turn on the relay
+        // digitalWrite(D0, HIGH);
+        digitalWrite(LED_D0, HIGH);
+        onOff_htg = 1;
+    }
+}
+
+void turnOffHtgRelay() {
+if (onOff_htg == 1) {
+        // turn on the relay
+        // digitalWrite(D0, LOW);
+        digitalWrite(LED_D0, LOW);
+        onOff_htg = 0;
+    }
+}
+
+void printWifiStatus() {
+// print the SSID of the network you&#39;re attached to:
+Serial.print(&quot;SSID: &quot;);
+Serial.println(WiFi.SSID());
+
+// print your board&#39;s IP address:
+IPAddress ip = WiFi.localIP();
+Serial.print(&quot;IP Address: &quot;);
+Serial.println(ip);
+
+// print the received signal strength:
+long rssi = WiFi.RSSI();
+Serial.print(&quot;signal strength (RSSI):&quot;);
+Serial.print(rssi);
+Serial.println(&quot; dBm&quot;);
+}
+
+String getLocalTime() {
+char buffer[32];
+tm t;
+_rtc_localtime(time(NULL), &amp;t, RTC_FULL_LEAP_YEAR_SUPPORT);
+strftime(buffer, 32, &quot;%Y-%m-%dT%H:%M:%S+00:00&quot;, &amp;t);
+return String(buffer);
 }
 </pre></div>
 </div>
 </div>
-</details><ol class="arabic simple" start="5">
-<li><p>In the Arduino IDE you will see the script reading the air temperature and set point temperature. It will also be changing the setpoint on the thermostat from 18 degC to 28 degC every 10 seconds.</p></li>
-</ol>
-</section>
-<section id="resource">
-<h2><span class="section-number">2.3. </span>Resource<a class="headerlink" href="#resource" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p><a href="https://docs.arduino.cc/tutorials/opta/getting-started-with-modbus-rtu/" target="_blank">Arduino tutorial on using Modbus RTU</a></p></li>
-</ul>
-</section>
+</details></section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -559,20 +740,20 @@ void loop() {
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../01/concepts.html"
+       href="05_tabletop.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">1. </span>Concepts</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>Tabletop Prototype</p>
       </div>
     </a>
     <a class="right-next"
-       href="02_opta_r1000_modbus.html"
+       href="../03/01_opta_wifi.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">3. </span>Arduino Opta and Seeed Studio reComputer r1000 Modbus TCP/IP</p>
+        <p class="prev-next-title"><span class="section-number">8. </span>Wifi for Opta</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -593,9 +774,8 @@ void loop() {
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-and-software">2.1. Hardware and software</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">2.2. Instructions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resource">2.3. Resource</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-and-software">7.1. Hardware and software</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">7.2. Instructions</a></li>
 </ul>
   </nav></div>
 
