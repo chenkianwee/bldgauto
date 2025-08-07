@@ -16,4 +16,8 @@ parts:
   - file: docs/02/03_r1000_tstat
   - file: docs/02/04_bacnet_server
   - file: docs/02/05_tabletop
-  
+  - file: docs/02/06_opta_tstat_frost
+- caption: How-Tos
+  numbered: true
+  chapters:
+  - file: docs/03/01_opta_wifi
