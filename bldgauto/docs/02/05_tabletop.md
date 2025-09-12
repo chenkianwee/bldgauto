@@ -60,9 +60,9 @@ Parity: 1-8-N-2
 2. Once configured we need to do some programming on the Arduino Opta, connect the Opta to your laptop installed with Arduino IDE using the USB-C. Open the Arduino IDE. Copy and paste the following script onto the IDE and upload it to Opta.
 ``` {dropdown} ctrl_belimo_tstat
     /**
-    Getting started with Opta and Belimo
-    Purpose: Read and write registers from Belimo 22rth 5900ud
-    @author Kian Wee Chen
+        Getting started with Opta and Belimo
+        Purpose: Read and write registers from Belimo 22rth 5900ud
+        @author Kian Wee Chen
     */
     #include <SPI.h>
     #include <Ethernet.h>
@@ -101,6 +101,9 @@ Parity: 1-8-N-2
     int onOff_clg = 0; // indicator if the relays are on/off, 0=Off, 1=On
     double deadband = 0.5; //degC
 
+    unsigned long previousMillis = 0;  
+    const long interval = 10000; // 10 seconds in milliseconds
+
     void setup() {
         // Initialize Relays outputs
         pinMode(D0, OUTPUT);
@@ -111,7 +114,7 @@ Parity: 1-8-N-2
 
         Serial.begin(9600);
         // while (!Serial);
-        // Serial.println("Modbus RTU Client");
+        Serial.println("Modbus RTU Client");
 
         RS485.setDelays(preDelayBR, postDelayBR);
         // Start the Modbus RTU client
@@ -138,50 +141,18 @@ Parity: 1-8-N-2
             while (1);
         }
         // Configure a holding register at address 0 for Modbus communication
-        int success = modbusTCPServer.configureHoldingRegisters(0, 1);
-        Serial.println(success);
+        int success1 = modbusTCPServer.configureHoldingRegisters(0, 1);
+        Serial.println(success1);
+        int success2 = modbusTCPServer.configureInputRegisters(0,3);
+        Serial.println(success2);
         //-------------------------------------------------------
     }
 
-    void loop() {
-        int setpt_raw = ModbusRTUClient.holdingRegisterRead(server_id, setpt_addr);
-        int airtemp_raw = ModbusRTUClient.inputRegisterRead(server_id, airtemp_addr);
-        if (setpt_raw != -1 && setpt_raw != -1) {
-            writeSetptOptaReg(setpt_raw);
-            double setpt = setpt_raw * setpt_scale;
-            double airtemp = airtemp_raw * airtemp_scale;
-            double temp_diff = setpt - airtemp; // if positive heat, if negative cool
-            // Serial.println(setpt);
-            // Serial.println(airtemp);
-            if (airtemp < setpt) {
-                //need to heat
-                if (temp_diff > deadband) {
-                    turnOffClgRelay();
-                    turnOnHtgRelay();
-                } else {
-                    turnOffClgRelay();
-                    turnOffHtgRelay();
-                }
-            
-            } else if (airtemp > setpt) {
-                //need to cool
-                if (temp_diff*-1 > deadband) {
-                    turnOffHtgRelay();
-                    turnOnClgRelay();
-                } else {
-                    turnOffClgRelay();
-                    turnOffHtgRelay();
-                }
-            } else {
-                // air temp is equal to setpoint no heating or cooling is required
-                // switch off all the relay
-                turnOffClgRelay();
-                turnOffHtgRelay();
-            }
-
-        } else {
-            Serial.print("failed! ");
-            Serial.println(ModbusRTUClient.lastError());
+    void loop() { 
+        unsigned long currentMillis = millis();
+        if (currentMillis - previousMillis >= interval) {
+            previousMillis = currentMillis;  // reset timer
+            ctrlTstat();                     // call your function
         }
         //-------------------------------------------------------
         //Modbus tcp/ip
@@ -200,9 +171,6 @@ Parity: 1-8-N-2
             }
             Serial.println("Client disconnected.");
         }
-        //-------------------------------------------------------
-        delay(10000);
-        // Serial.println();
     }
 
     void updateSetptReg() {
@@ -219,10 +187,85 @@ Parity: 1-8-N-2
         }
     }
 
+    void ctrlTstat() {
+        Serial.println("Function executed!");
+        int setpt_raw = ModbusRTUClient.holdingRegisterRead(server_id, setpt_addr);
+        int airtemp_raw = ModbusRTUClient.inputRegisterRead(server_id, airtemp_addr);
+        Serial.println(setpt_raw);
+        Serial.println(airtemp_raw);
+        if (setpt_raw != -1 && airtemp_raw != -1) {
+            writeSetptOptaReg(setpt_raw);
+            writeAirTempOptaReg(airtemp_raw);
+            double setpt = setpt_raw * setpt_scale;
+            double airtemp = airtemp_raw * airtemp_scale;
+            float heat_on_threshold = setpt - deadband / 2.0;
+            float cool_on_threshold = setpt + deadband / 2.0;
+            if (onOff_htg == 0 && onOff_clg == 0) {
+                if (airtemp <= heat_on_threshold) {
+                    turnOffClgRelay();  // cooler OFF
+                    turnOnHtgRelay();   // heater ON
+                } else if (airtemp >= cool_on_threshold) {
+                    turnOffHtgRelay();  // heater OFF
+                    turnOnClgRelay();   // cooler ON
+                }
+                else {
+                    turnOffClgRelay();
+                    turnOffHtgRelay();
+                }
+            } else if (onOff_htg == 1 && onOff_clg == 0) {
+                if (airtemp < setpt) {
+                    turnOffClgRelay();  // cooler OFF
+                    turnOnHtgRelay();   // heater ON
+                }
+                else {
+                    turnOffClgRelay();
+                    turnOffHtgRelay();
+                }
+            } else if (onOff_htg == 0 && onOff_clg == 1) {
+                if (airtemp > setpt) {
+                    turnOnClgRelay();  // cooler OFF
+                    turnOffHtgRelay();   // heater ON
+                }
+                else {
+                    turnOffClgRelay();
+                    turnOffHtgRelay();
+                }
+            }
+
+            writeHtRelayOptaReg(onOff_htg);
+            writeClgRelayOptaReg(onOff_clg);
+
+        } else {
+            Serial.print("failed! ");
+            Serial.println(ModbusRTUClient.lastError());
+        }
+    }
+
     void writeSetptOptaReg(int setptVal) {
         int regwrite = modbusTCPServer.holdingRegisterWrite(0, setptVal);
         if (regwrite == 0) {
-            Serial.println("Writing to Opta Holding Register Failed!");    
+            Serial.println("setpt: Writing to Opta Holding Register Failed!");    
+        }
+    }
+
+    void writeAirTempOptaReg(int airTempVal) {
+        int regwrite = modbusTCPServer.inputRegisterWrite(0, airTempVal);
+        if (regwrite == 0) {
+            Serial.println("airTemp: Writing to Opta Holding Register Failed!");    
+        }
+    }
+
+    void writeHtRelayOptaReg(int htRelay) {
+        int regwrite = modbusTCPServer.inputRegisterWrite(1, htRelay);
+        if (regwrite == 0) {
+            Serial.println("htRelay: Writing to Opta Holding Register Failed!");    
+        }
+    }
+
+    void writeClgRelayOptaReg(int clgRelay) {
+        int regwrite = modbusTCPServer.inputRegisterWrite(2, clgRelay);
+        if (regwrite == 0) {
+            Serial.println("clgRelay: Writing to Opta Holding Register Failed!");    
         }
     }
 
@@ -373,7 +416,7 @@ Gateway: 10.0.0.229
         # print(f"*** Reading register({var_type})")
         try:
             if reg_type == 'Holding Register':
-                rr = client.read_holding_registers(address=addr, count=count, slave=1)
+                rr = client.read_holding_registers(address=addr, count=1, slave=1)
             elif reg_type == 'Input Register':
                 rr = client.read_input_registers(address=addr, count=count, slave=1)
             value = client.convert_from_registers(rr.registers, data_type)
@@ -391,8 +434,12 @@ Gateway: 10.0.0.229
     # Modbus TCP/IP parameters
     HOST = "10.0.0.227" # change it to the modbus device of interest
     PORT = 502
-    setpt_addr = 0
+    setpt_addr = 0 #holding registers
+    airtemp_addr = 0 #input registers
+    htrelay_addr = 1 #input registers
+    clgrelay_addr = 2 #input registers
     setpt_scalg = 0.01
+    airtemp_scalg = 0.01
 
     # Debug logging setup
     _debug = 0
@@ -417,7 +464,7 @@ Gateway: 10.0.0.229
 
             self.app = Application.from_args(args)
 
-            self.commandable_av = CommandableAnalogValueObject(
+            self.setpt = CommandableAnalogValueObject(
                 objectIdentifier=("analogValue", 1),
                 objectName="tstat-setpt",
                 presentValue=0.0,
@@ -427,8 +474,39 @@ Gateway: 10.0.0.229
                 description="Setpoint Temperature of the Belimo Tstat",
             )
 
+            self.airtemp = AnalogValueObject(
+                objectIdentifier=("analogValue", 2),
+                objectName="read-only-tstat-airtemp",
+                presentValue=0.0,
+                statusFlags=[0, 0, 0, 0],
+                covIncrement=1.0,
+                units="degreesCelsius",
+                description="Air Temperature of the Belimo Tstat",
+            )
+
+            self.htrelay = AnalogValueObject(
+                objectIdentifier=("analogValue", 3),
+                objectName="read-only-tstat-ht",
+                presentValue=0.0,
+                statusFlags=[0, 0, 0, 0],
+                covIncrement=1.0,
+                description="htg device On/Off status",
+            )
+
+            self.clgrelay = AnalogValueObject(
+                objectIdentifier=("analogValue", 4),
+                objectName="read-only-tstat-clg",
+                presentValue=0.0,
+                statusFlags=[0, 0, 0, 0],
+                covIncrement=1.0,
+                description="clg device On/Off status",
+            )
+
             for obj in [
-                self.commandable_av
+                self.setpt,
+                self.airtemp,
+                self.htrelay,
+                self.clgrelay
             ]:
                 self.app.add_object(obj)
 
@@ -440,7 +518,10 @@ Gateway: 10.0.0.229
             while True:
                 await asyncio.sleep(INTERVAL)
                 # get the present setpt value of bacnet
-                setpt_val = self.commandable_av.presentValue
+                setpt_val = self.setpt.presentValue
+                airtemp_val = self.airtemp.presentValue
+                htg_present_val = self.htrelay.presentValue
+                clg_present_val = self.clgrelay.presentValue
                 # get the tstat val
                 client: ModbusTcpClient = ModbusTcpClient(
                     host=HOST,
@@ -448,19 +529,26 @@ Gateway: 10.0.0.229
                 )
                 client.connect()
                 sleep(1)
-                modbus_setpt_val = read_register(client, setpt_addr, 'H')
+                modbus_setpt_val = read_register(client, 0, 'H')
+                modbus_airtemp_val = read_register(client, 0, 'H', reg_type='Input Register')
+                mb_ht_relay_val = read_register(client, 1, 'H', reg_type='Input Register')
+                mb_clg_relay_val = read_register(client, 2, 'H', reg_type='Input Register')
+                print(modbus_setpt_val)
+                print(modbus_airtemp_val)
+                print(mb_ht_relay_val)
+                print(mb_clg_relay_val)
                 if modbus_setpt_val != None:
                     modbus_setpt_val_flt = modbus_setpt_val*setpt_scalg
                     if setpt_val == 0.0:
                         # it means this is the 1st loop
-                        self.commandable_av.presentValue = modbus_setpt_val_flt
+                        self.setpt.presentValue = modbus_setpt_val_flt
                         prev_setpt = modbus_setpt_val_flt
                     else:
                         # this is not the 1st loop prev_setpt cannt be 0
                         if setpt_val != prev_setpt: # new write to the bacnet setpt
                             if modbus_setpt_val_flt != prev_setpt: # new write from the thermostat
                                 # thermostat always take priority, overwrite bacnet
-                                self.commandable_av.presentValue = modbus_setpt_val_flt
+                                self.setpt.presentValue = modbus_setpt_val_flt
                                 prev_setpt = modbus_setpt_val_flt
                             elif modbus_setpt_val_flt == prev_setpt: # no new write from thermostat
                                 write_register(client, setpt_addr, int(setpt_val/setpt_scalg))
@@ -468,13 +556,30 @@ Gateway: 10.0.0.229
                         else: # no write from bacnet
                             if modbus_setpt_val_flt != prev_setpt: # new write from the thermostat
                                 # expose the thermostat setpt
-                                self.commandable_av.presentValue = modbus_setpt_val_flt
+                                self.setpt.presentValue = modbus_setpt_val_flt
                                 prev_setpt = modbus_setpt_val_flt
+                
+                if modbus_airtemp_val != None:
+                    modbus_airtemp_val_flt = modbus_airtemp_val*airtemp_scalg
+                    if modbus_airtemp_val_flt != airtemp_val:
+                        # expose the thermostat air temp
+                        self.airtemp.presentValue = modbus_airtemp_val_flt
+
+                if mb_ht_relay_val != None:
+                    if mb_ht_relay_val != htg_present_val: # new update from arduino
+                        self.htrelay.presentValue = mb_ht_relay_val
+
+                if mb_clg_relay_val != None:
+                    if mb_clg_relay_val != clg_present_val: # new update from arduino
+                        self.clgrelay.presentValue = mb_clg_relay_val
 
                 client.close()
 
                 if _debug:
-                    _log.debug(f"Commandable AV: {self.commandable_av.presentValue}")
+                    _log.debug(f"Setpoint: {self.setpt.presentValue}")
+                    _log.debug(f"Air Temp: {self.airtemp.presentValue}")
+                    _log.debug(f"Htg Relay: {self.htrelay.presentValue}")
+                    _log.debug(f"Clg Relay: {self.clgrelay.presentValue}")
 
     async def main():
         global _debug
