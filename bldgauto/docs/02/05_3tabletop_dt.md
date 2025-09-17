@@ -1,6 +1,6 @@
 # Tabletop Digital Twin
 
-1. Once you have setup the tabletop digital twin from the previous tutorial. Download the Y2I software stack to develop a digital twin of the tabletop BAS <a href="https://store.arduino.cc/products/opta-wifi?queryID=undefined" target="_blank">here</a>.
+1. Once you have setup the tabletop digital twin from the previous tutorial. Download the Y2I software stack to develop a digital twin of the tabletop BAS <a href="https://github.com/chenkianwee/yun2infinity/releases/download/0.0.14/yun2infinity-0.0.13_tabletop_dt.zip" target="_blank">here</a>.
 
 2. Unzip the file. Go to the yun2infinity-0.0.13_tabletop_dt/django/yun2inf_project folder. <a href="https://docs.docker.com/engine/install/ubuntu/#installation-methods" target="_blank">Install Docker</a>. Build the the container with the following command.
     ```
