@@ -15,7 +15,10 @@ parts:
   - file: docs/02/02_opta_r1000_modbus
   - file: docs/02/03_r1000_tstat
   - file: docs/02/04_bacnet_server
-  - file: docs/02/05_tabletop
+  - file: docs/02/05_1tabletop_bas_dt
+    sections:
+    - file: docs/02/05_2tabletop_bas
+    - file: docs/02/05_3tabletop_dt
   - file: docs/02/06_opta_tstat_frost
 - caption: How-Tos
   numbered: true

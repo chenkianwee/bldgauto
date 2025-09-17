@@ -1,4 +1,4 @@
-# Tabletop Prototype
+# Tabletop BAS Prototype
 
 ## Hardware and software
 For this tutorial we will need the following hardware
@@ -60,9 +60,9 @@ Parity: 1-8-N-2
 2. Once configured we need to do some programming on the Arduino Opta, connect the Opta to your laptop installed with Arduino IDE using the USB-C. Open the Arduino IDE. Copy and paste the following script onto the IDE and upload it to Opta.
 ``` {dropdown} ctrl_belimo_tstat
     /**
-        Getting started with Opta and Belimo
-        Purpose: Read and write registers from Belimo 22rth 5900ud
-        @author Kian Wee Chen
+    Getting started with Opta and Belimo
+    Purpose: Read and write registers from Belimo 22rth 5900ud
+    @author Kian Wee Chen
     */
     #include <SPI.h>
     #include <Ethernet.h>
@@ -100,7 +100,7 @@ Parity: 1-8-N-2
     int onOff_htg = 0; // indicator if the relays are on/off, 0=Off, 1=On
     int onOff_clg = 0; // indicator if the relays are on/off, 0=Off, 1=On
     double deadband = 0.5; //degC
-
+    int prevSetpt = -1;
     unsigned long previousMillis = 0;  
     const long interval = 10000; // 10 seconds in milliseconds
 
@@ -149,11 +149,16 @@ Parity: 1-8-N-2
     }
 
     void loop() { 
-        unsigned long currentMillis = millis();
-        if (currentMillis - previousMillis >= interval) {
-            previousMillis = currentMillis;  // reset timer
-            ctrlTstat();                     // call your function
+        if (prevSetpt == -1) {
+            ctrlTstat();
+        } else {
+            unsigned long currentMillis = millis();
+            if (currentMillis - previousMillis >= interval) {
+                previousMillis = currentMillis;  // reset timer
+                ctrlTstat();                     // call your function
+            }
         }
+        
         //-------------------------------------------------------
         //Modbus tcp/ip
         //-------------------------------------------------------
@@ -175,9 +180,14 @@ Parity: 1-8-N-2
 
     void updateSetptReg() {
         // Read the current value at address 0, this is the setpt from the thermostat exposed by the arduino opta modbus interface.
+        int setpt_raw = ModbusRTUClient.holdingRegisterRead(server_id, setpt_addr);
         int setptVal = modbusTCPServer.holdingRegisterRead(0);
-        // write the new value to the thermostat
-        writeSetptTstatReg(setptVal);
+        if (setpt_raw == prevSetpt) {
+            // that means no one has manually changed the thermostat
+            // update the thermostat with the remote change
+            // write the new value to the thermostat
+            writeSetptTstatReg(setptVal);
+        }
     }
 
     void writeSetptTstatReg(int setptVal) {
@@ -190,6 +200,7 @@ Parity: 1-8-N-2
     void ctrlTstat() {
         Serial.println("Function executed!");
         int setpt_raw = ModbusRTUClient.holdingRegisterRead(server_id, setpt_addr);
+        prevSetpt = setpt_raw;
         int airtemp_raw = ModbusRTUClient.inputRegisterRead(server_id, airtemp_addr);
         Serial.println(setpt_raw);
         Serial.println(airtemp_raw);
