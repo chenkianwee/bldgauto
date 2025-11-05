@@ -1,0 +1,35 @@
+version: 1
+project:
+  title: Building Automation
+  authors:
+    - name: Kian Wee Chen
+  github: chenkianwee/bldgauto
+  bibliography:
+    - references.bib
+  exports:
+    - format: pdf
+      template: plain_latex_book
+      output: exports/book.pdf
+  toc:
+    - file: docs/intro.md
+    - title: Concepts
+      children:
+        - file: docs/01/concepts.md
+    - title: Tutorials
+      children:
+        - file: docs/02/01_opta_tstat.md
+        - file: docs/02/02_opta_r1000_modbus.md
+        - file: docs/02/03_r1000_tstat.md
+        - file: docs/02/04_bacnet_server.md
+        - file: docs/02/05_1tabletop_bas_dt.md
+          children:
+            - file: docs/02/05_2tabletop_bas.md
+            - file: docs/02/05_3tabletop_dt.md
+        - file: docs/02/06_opta_tstat_frost.md
+    - title: How-Tos
+      children:
+        - file: docs/03/01_opta_wifi.md
+site:
+  options:
+    folders: true
+  template: book-theme
