@@ -57,7 +57,7 @@ Parity: 1-8-N-2
 ```
 <br/><br/>
 
-2. Once configured we need to do some programming on the Arduino Opta, connect the Opta to your laptop installed with Arduino IDE using the USB-C. Open the Arduino IDE. Copy and paste the following script onto the IDE and upload it to Opta.
+2. Once configured we need to do some programming on the Arduino Opta, connect the Opta to your laptop installed with Arduino IDE using the USB-C. Open the Arduino IDE. Copy and paste the following script onto the IDE and upload it to Opta. If you get a dfu related error 'Failed uploading: uploading error: exit status 74' go to [here](01_opta_tstat.md#arduino-dfu-related-error-on-ubuntu) for a possible fix.
 ``` {dropdown} ctrl_belimo_tstat
     /**
     Getting started with Opta and Belimo
@@ -625,7 +625,7 @@ python bacnet_server4opta.py --address xx.xx.xx.xx/24 --name bacnet_device --ins
 ```
 
 ## Accessing R1000 BACnet Server from you BACnet client laptop
-1. Make sure your BACnet client laptop is connected to the same Wifi network as the R1000. You can discover the R1000 BACnet server using [the 'read_device_obj_props_simple.py' script from step 1](04_bacnet_server.md#accessing-the-bacnet-server-from-a-bacnet-client).
+1. Make sure your BACnet client laptop is connected to the same Wifi network as the R1000. You can discover the R1000 BACnet server using [the 'read_device_obj_props_simple.py' script](04_bacnet_server.md#accessing-the-bacnet-server-from-a-bacnet-client).
 
 2. You should be able to get the following result.
 ```

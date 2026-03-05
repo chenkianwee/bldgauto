@@ -46,7 +46,7 @@ Parity: 1-8-N-2
 ```
 <br/><br/>
 
-5. Once configured we need to do some programming on the Arduino Opta. Open the Arduino IDE. Copy and paste the following script onto the IDE and upload it to Opta.
+5. Once configured we need to do some programming on the Arduino Opta. Open the Arduino IDE. Copy and paste the following script onto the IDE and upload it to Opta.If you get a dfu related error 'Failed uploading: uploading error: exit status 74' go to [here](01_opta_tstat.md#arduino-dfu-related-error-on-ubuntu) for a possible fix.
 ``` {dropdown} read_belimo_tstat_post
     #include <SPI.h>
     #include <ArduinoRS485.h> // ArduinoModbus depends on the ArduinoRS485 library

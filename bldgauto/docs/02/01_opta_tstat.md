@@ -130,5 +130,29 @@ Parity: 1-8-N-2
 
 5. In the Arduino IDE you will see the script reading the air temperature and set point temperature. It will also be changing the setpoint on the thermostat from 18 degC to 28 degC every 10 seconds.
 
+## Arduino dfu related error on Ubuntu
+1. You might get an error if you are using the APP image on ubuntu.
+    ```
+    dfu-util: Warning: Invalid DFU suffix signature
+    dfu-util: A valid DFU suffix will be required in a future dfu-util release
+    dfu-util: Cannot open DFU device 2341:0364 found on devnum 7 (LIBUSB_ERROR_ACCESS)
+    dfu-util: No DFU capable USB device available
+    Failed uploading: uploading error: exit status 74
+    ```
+
+2. Resolve the issue by following these instructions (https://forum.arduino.cc/t/opta-upload-failed-no-dfu-capable-usb-device-available/1149001/5).
+    - create a file in /etc/udev/rules.d/60-dfu.rules with the following command
+    ```
+    sudo touch /etc/udev/rules.d/60-dfu.rules
+    ```
+    - open the file with nano
+    ```
+    sudo nano /etc/udev/rules.d/60-dfu.rules
+    ```
+    - copy and paste the following line into the file. ctrl-x to save 
+    ```
+    ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0364", TAG+="uaccess"
+    ```
+
 ## Resource
 - <a href="https://docs.arduino.cc/tutorials/opta/getting-started-with-modbus-rtu/" target="_blank">Arduino tutorial on using Modbus RTU</a>

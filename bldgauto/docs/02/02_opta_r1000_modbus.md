@@ -32,7 +32,7 @@ We will need the following software
 ```
 <br/><br/>
 
-3. Once wired we need to do some programming on the Arduino Opta. Open the Arduino IDE. Copy and paste the following script onto the IDE and upload it to Opta.
+3. Once wired we need to do some programming on the Arduino Opta. Open the Arduino IDE. Copy and paste the following script onto the IDE and upload it to Opta. If you get a dfu related error 'Failed uploading: uploading error: exit status 74' go to [here](01_opta_tstat.md#arduino-dfu-related-error-on-ubuntu) for a possible fix.
 ``` {dropdown} opta_r1000_modbus_ip
     /**
     Getting Started with Opta™ and Seeed Studio reComputer R1000
