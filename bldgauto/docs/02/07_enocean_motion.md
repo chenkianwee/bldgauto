@@ -38,211 +38,210 @@ For this tutorial we will need the following hardware
 
 2. Run the following script to communicate with the sensor.
     ```{dropdown} read_emdcb.py
-    import asyncio
-    from typing import Any
+        import asyncio
+        from typing import Any
 
-    from bleak import BleakScanner
-    from Crypto.Cipher import AES  # requires pycryptodome
-    # -----------------------------------------------------------------------------
-    # ---- EMDCB payload parsing (per manual’s Appendix “Parsing telegrams”) ------
-    # Layout inside Manufacturer payload:
-    #   [0:4]  Sequence counter (LE)
-    #   [4:-4] Sensor Data (10 bytes in canonical example)
-    #   [-4:]  MIC (4 bytes)
-    #
-    # Sensor Data uses "descriptor/value" pairs (example set shown in the manual):
-    #   0x02 -> Energy level (1B; percent = value/2)
-    #   0x44 -> Solar-cell illuminance (2B LE; lux)
-    #   0x45 -> Light-sensor illuminance (2B LE; lux)
-    #   0x20 -> Occupancy flag (0x02 => occupied, 0x01 => not occupied)
-    # See: EMDCB User Manual (DB rev), “Parsing EMDCB telegrams” example.
-    # --- USER SETTINGS -----------------------------------------------------------
-    enocean_ble_addr_hex = ''
-    security_key_hex = ''
-    # 2) EnOcean company identifier 0x03DA (986) (default for EMDCB unless changed via NFC) You can change MANUFACTURER_ID via NFC if needed.
-    enocean_id = 0x03DA
-    prev_seq_cnt = None
+        from bleak import BleakScanner
+        from Crypto.Cipher import AES  # requires pycryptodome
+        # -----------------------------------------------------------------------------
+        # ---- EMDCB payload parsing (per manual’s Appendix “Parsing telegrams”) ------
+        # Layout inside Manufacturer payload:
+        #   [0:4]  Sequence counter (LE)
+        #   [4:-4] Sensor Data (10 bytes in canonical example)
+        #   [-4:]  MIC (4 bytes)
+        #
+        # Sensor Data uses "descriptor/value" pairs (example set shown in the manual):
+        #   0x02 -> Energy level (1B; percent = value/2)
+        #   0x44 -> Solar-cell illuminance (2B LE; lux)
+        #   0x45 -> Light-sensor illuminance (2B LE; lux)
+        #   0x20 -> Occupancy flag (0x02 => occupied, 0x01 => not occupied)
+        # See: EMDCB User Manual (DB rev), “Parsing EMDCB telegrams” example.
+        # --- USER SETTINGS -----------------------------------------------------------
+        enocean_ble_addr_hex = ''
+        security_key_hex = ''
+        # 2) EnOcean company identifier 0x03DA (986) (default for EMDCB unless changed via NFC) You can change MANUFACTURER_ID via NFC if needed.
+        enocean_id = 0x03DA
+        prev_seq_cnt = None
 
-    def sort_data(mfg_payload: bytes) -> dict[str, bytes]:
-        """
-        sort mfg payload into a dictionary
-        
-        Parameters
-        ----------
-        mfg_payload: bytes
-            bluetooth payload from python bleak library.
+        def sort_data(mfg_payload: bytes) -> dict[str, bytes]:
+            """
+            sort mfg payload into a dictionary
             
-        Returns
-        -------
-        dict
-            dictionary with the following
-            - sequence
-            - signature
-            - sensor_data
-            - authentication
-        """
-        if len(mfg_payload) != 18:
-            return {"error": "payload length is not right", "raw_hex": mfg_payload.hex().upper()}
-        
-        seq = mfg_payload[0:4]
-        sensor_data = mfg_payload[4:-4]
-        sig = mfg_payload[-4:]
-
-        result = {
-            'sequence': seq,
-            'signature': sig,
-            'sensor_data': sensor_data
-            }
-        return result
-
-    def authenticate(ble_addr: bytes,  mfg_payload: bytes) -> dict[str, bytes]:
-        """
-        authenticate the telegram from enocean
-        
-        Parameters
-        ----------
-        ble_addr: bytes
-            bluetooth addr
-        
-        mfg_payload: bytes
-            bluetooth payload from python bleak library.
+            Parameters
+            ----------
+            mfg_payload: bytes
+                bluetooth payload from python bleak library.
+                
+            Returns
+            -------
+            dict
+                dictionary with the following
+                - sequence
+                - signature
+                - sensor_data
+                - authentication
+            """
+            if len(mfg_payload) != 18:
+                return {"error": "payload length is not right", "raw_hex": mfg_payload.hex().upper()}
             
-        Returns
-        -------
-        dict
-            dictionary with the following:
-            - sequence
-            - signature
-            - sensor_data
-            - 
-        """
-        sorted_data = sort_data(mfg_payload)
+            seq = mfg_payload[0:4]
+            sensor_data = mfg_payload[4:-4]
+            sig = mfg_payload[-4:]
 
-        seq_cter = sorted_data['sequence']
-        snsr_data = sorted_data['sensor_data']
-        signature = sorted_data['signature']
-        
-        # build the nonce
-        ble_addr_le = ble_addr[::-1]
-        padding = b'\x00\x00\x00'
-        nonce = ble_addr_le + seq_cter + padding
-        
-        # build the input data 
-        # length of payload
-        ble_length = 1 + 2 + len(mfg_payload)
-        # build the authenticated payload
-        ble_len_bytes = ble_length.to_bytes(1, 'little')
-        type_bytes = 0xFF.to_bytes(1, 'little')
-        enocean_id_bytes = enocean_id.to_bytes(2, 'little')
-        auth_payload = ble_len_bytes + type_bytes + enocean_id_bytes + seq_cter + snsr_data
-        # auth_payload = bytes([ble_length, 0xFF, 0xDA, 0x03]) + seq_cter_le + snsr_data
-        
-        # Authenticate using AES-128 CCM
-        key = bytes.fromhex(security_key_hex)
-        cipher = AES.new(key, AES.MODE_CCM, nonce=nonce, mac_len=4)
-        cipher.update(auth_payload)
-        calc_sig = cipher.digest()
-        if calc_sig == signature:
-            # print('Authentication SUCCESS!')
-            sorted_data['authentication'] = True
-        else:
-            # print('Authentication FAILED!')
-            sorted_data['authentication'] = False
-        # cipher.verify(signature)
+            result = {
+                'sequence': seq,
+                'signature': sig,
+                'sensor_data': sensor_data
+                }
+            return result
 
-        return sorted_data
+        def authenticate(ble_addr: bytes,  mfg_payload: bytes) -> dict[str, bytes]:
+            """
+            authenticate the telegram from enocean
+            
+            Parameters
+            ----------
+            ble_addr: bytes
+                bluetooth addr
+            
+            mfg_payload: bytes
+                bluetooth payload from python bleak library.
+                
+            Returns
+            -------
+            dict
+                dictionary with the following:
+                - sequence
+                - signature
+                - sensor_data
+                - 
+            """
+            sorted_data = sort_data(mfg_payload)
 
-    def parse_emdcb_payload(sensor_data: bytes) -> dict[str, Any]:
-        i = 0
-        result = {}
-        while i < len(sensor_data):
-            descriptor = sensor_data[i] # data descriptor
-            i += 1
-
-            # Extract Size (top 2 bits) and Type ID (bottom 6 bits)
-            size_bits = (descriptor >> 6) & 0x03
-            type_id = descriptor & 0x3F
-
-            # Determine data length in bytes
-            if size_bits == 0:
-                data_len = 1
-            elif size_bits == 1:
-                data_len = 2
-            elif size_bits == 2:
-                data_len = 4
-
-            # take into account commissioning info
-            if type_id == 0x3E:
-                data_len = 22
-
-            # 2. Extract the Data Bytes
-            data = sensor_data[i : i + data_len]
-            i += data_len
-
-            if type_id == 0x02:  # Energy level (8-bit), percent = val/2
-                val = data[0] * 0.5
-                result["energy_percent"] = val
-
-            elif type_id == 0x04:  # Solar-cell illuminance (16-bit LE)
-                lux = int.from_bytes(data, "little")
-                result["lux_solar_cell"] = lux
-
-            elif type_id == 0x05:  # Light-sensor illuminance (16-bit LE)
-                lux = int.from_bytes(data, "little")
-                result["lux_sensor"] = lux
-
-            elif type_id == 0x20:  # Occupancy present => occupied
-                occ = data[0]
-                if occ == 0x01:
-                    result["occupied"] = False
-                elif occ == 0x02:
-                    result["occupied"] = True
+            seq_cter = sorted_data['sequence']
+            snsr_data = sorted_data['sensor_data']
+            signature = sorted_data['signature']
+            
+            # build the nonce
+            ble_addr_le = ble_addr[::-1]
+            padding = b'\x00\x00\x00'
+            nonce = ble_addr_le + seq_cter + padding
+            
+            # build the input data 
+            # length of payload
+            ble_length = 1 + 2 + len(mfg_payload)
+            # build the authenticated payload
+            ble_len_bytes = ble_length.to_bytes(1, 'little')
+            type_bytes = 0xFF.to_bytes(1, 'little')
+            enocean_id_bytes = enocean_id.to_bytes(2, 'little')
+            auth_payload = ble_len_bytes + type_bytes + enocean_id_bytes + seq_cter + snsr_data
+            # auth_payload = bytes([ble_length, 0xFF, 0xDA, 0x03]) + seq_cter_le + snsr_data
+            
+            # Authenticate using AES-128 CCM
+            key = bytes.fromhex(security_key_hex)
+            cipher = AES.new(key, AES.MODE_CCM, nonce=nonce, mac_len=4)
+            cipher.update(auth_payload)
+            calc_sig = cipher.digest()
+            if calc_sig == signature:
+                # print('Authentication SUCCESS!')
+                sorted_data['authentication'] = True
             else:
-                # Unknown/aux descriptor – record it and continue
-                result.setdefault("unknown_descriptors", []).append(descriptor)
+                # print('Authentication FAILED!')
+                sorted_data['authentication'] = False
+            # cipher.verify(signature)
 
-        return result
+            return sorted_data
 
-    def mac_str_to_bytes(mac: str) -> bytes:
-        """Convert 'AA:BB:CC:DD:EE:FF' to b'\\xAA\\xBB\\xCC\\xDD\\xEE\\xFF'."""
-        return bytes(int(x, 16) for x in mac.split(":"))
+        def parse_emdcb_payload(sensor_data: bytes) -> dict[str, Any]:
+            i = 0
+            result = {}
+            while i < len(sensor_data):
+                descriptor = sensor_data[i] # data descriptor
+                i += 1
 
-    # ------------------------------ BLE scanner ----------------------------------
-    def on_adv(device, adv_data):
-        global prev_seq_cnt
-        ble_addr_hex = device.address.replace(':', '')
-        if ble_addr_hex.upper() == enocean_ble_addr_hex:
-            mfg_data = adv_data.manufacturer_data
-            mfg_id = list(mfg_data.keys())[0]
-            if mfg_id == enocean_id:
-                payload = mfg_data[mfg_id]
-                ble_addr = bytes.fromhex(ble_addr_hex)
-                authenticated_sorted_data = authenticate(ble_addr, payload)
-                if authenticated_sorted_data['authentication'] == True:
-                    seq_ct_int = int.from_bytes(authenticated_sorted_data['sequence'], 'little')
-                    print(f'Current seq cnt is {seq_ct_int}, prev cnt is {prev_seq_cnt}')
-                    if prev_seq_cnt == None or seq_ct_int > prev_seq_cnt:
-                        sensor_data = authenticated_sorted_data['sensor_data']
-                        parsed = parse_emdcb_payload(sensor_data)
-                        prev_seq_cnt = seq_ct_int
-                        print(f'Telegram count {seq_ct_int}')
-                        print(parsed)
+                # Extract Size (top 2 bits) and Type ID (bottom 6 bits)
+                size_bits = (descriptor >> 6) & 0x03
+                type_id = descriptor & 0x3F
+
+                # Determine data length in bytes
+                if size_bits == 0:
+                    data_len = 1
+                elif size_bits == 1:
+                    data_len = 2
+                elif size_bits == 2:
+                    data_len = 4
+
+                # take into account commissioning info
+                if type_id == 0x3E:
+                    data_len = 22
+
+                # 2. Extract the Data Bytes
+                data = sensor_data[i : i + data_len]
+                i += data_len
+
+                if type_id == 0x02:  # Energy level (8-bit), percent = val/2
+                    val = data[0] * 0.5
+                    result["energy_percent"] = val
+
+                elif type_id == 0x04:  # Solar-cell illuminance (16-bit LE)
+                    lux = int.from_bytes(data, "little")
+                    result["lux_solar_cell"] = lux
+
+                elif type_id == 0x05:  # Light-sensor illuminance (16-bit LE)
+                    lux = int.from_bytes(data, "little")
+                    result["lux_sensor"] = lux
+
+                elif type_id == 0x20:  # Occupancy present => occupied
+                    occ = data[0]
+                    if occ == 0x01:
+                        result["occupied"] = False
+                    elif occ == 0x02:
+                        result["occupied"] = True
                 else:
-                    print('Authentication FAILED')
+                    # Unknown/aux descriptor – record it and continue
+                    result.setdefault("unknown_descriptors", []).append(descriptor)
 
-    async def main():
-        scanner = BleakScanner(on_adv)
-        await scanner.start()
-        print("Listening for EMDCB advertisements… Press Ctrl+C to stop.")
-        try:
-            while True:
-                await asyncio.sleep(1)
-        except KeyboardInterrupt:
-            pass
-        finally:
-            await scanner.stop()
+            return result
 
-    if __name__ == "__main__":
-        asyncio.run(main())
+        def mac_str_to_bytes(mac: str) -> bytes:
+            """Convert 'AA:BB:CC:DD:EE:FF' to b'\\xAA\\xBB\\xCC\\xDD\\xEE\\xFF'."""
+            return bytes(int(x, 16) for x in mac.split(":"))
 
+        # ------------------------------ BLE scanner ----------------------------------
+        def on_adv(device, adv_data):
+            global prev_seq_cnt
+            ble_addr_hex = device.address.replace(':', '')
+            if ble_addr_hex.upper() == enocean_ble_addr_hex:
+                mfg_data = adv_data.manufacturer_data
+                mfg_id = list(mfg_data.keys())[0]
+                if mfg_id == enocean_id:
+                    payload = mfg_data[mfg_id]
+                    ble_addr = bytes.fromhex(ble_addr_hex)
+                    authenticated_sorted_data = authenticate(ble_addr, payload)
+                    if authenticated_sorted_data['authentication'] == True:
+                        seq_ct_int = int.from_bytes(authenticated_sorted_data['sequence'], 'little')
+                        print(f'Current seq cnt is {seq_ct_int}, prev cnt is {prev_seq_cnt}')
+                        if prev_seq_cnt == None or seq_ct_int > prev_seq_cnt:
+                            sensor_data = authenticated_sorted_data['sensor_data']
+                            parsed = parse_emdcb_payload(sensor_data)
+                            prev_seq_cnt = seq_ct_int
+                            print(f'Telegram count {seq_ct_int}')
+                            print(parsed)
+                    else:
+                        print('Authentication FAILED')
+
+        async def main():
+            scanner = BleakScanner(on_adv)
+            await scanner.start()
+            print("Listening for EMDCB advertisements… Press Ctrl+C to stop.")
+            try:
+                while True:
+                    await asyncio.sleep(1)
+            except KeyboardInterrupt:
+                pass
+            finally:
+                await scanner.stop()
+
+        if __name__ == "__main__":
+            asyncio.run(main())
     ```
