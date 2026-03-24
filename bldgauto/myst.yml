@@ -26,6 +26,7 @@ project:
             - file: docs/02/05_2tabletop_bas.md
             - file: docs/02/05_3tabletop_dt.md
         - file: docs/02/06_opta_tstat_frost.md
+        - file: docs/02/07_enocean_motion.md
     - title: How-Tos
       children:
         - file: docs/03/01_opta_wifi.md
