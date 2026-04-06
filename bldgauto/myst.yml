@@ -30,7 +30,7 @@ project:
     - title: How-Tos
       children:
         - file: docs/03/01_opta_wifi.md
-        - file: docs/03/02_brick.md
+        - file: docs/03/02_brick.ipynb
 site:
   options:
     folders: true
