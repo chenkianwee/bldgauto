@@ -14,7 +14,7 @@ project:
     - file: docs/intro.md
     - title: Concepts
       children:
-        - file: docs/01/concepts.md
+        - file: docs/01/concept.md
     - title: Tutorials
       children:
         - file: docs/02/01_opta_tstat.md
@@ -30,6 +30,7 @@ project:
     - title: How-Tos
       children:
         - file: docs/03/01_opta_wifi.md
+        - file: docs/03/02_brick.md
 site:
   options:
     folders: true
