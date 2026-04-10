@@ -13,8 +13,6 @@ project:
   toc:
     - file: docs/intro.md
     - title: Concepts
-      children:
-        - file: docs/01/concept.md
     - title: Tutorials
       children:
         - file: docs/02/01_opta_tstat.md
@@ -31,6 +29,7 @@ project:
       children:
         - file: docs/03/01_opta_wifi.md
         - file: docs/03/02_brick.ipynb
+        - file: docs/03/03_bacpypes3.md
 site:
   options:
     folders: true
