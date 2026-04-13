@@ -30,6 +30,7 @@ project:
         - file: docs/03/01_opta_wifi.md
         - file: docs/03/02_brick.ipynb
         - file: docs/03/03_bacpypes3.md
+        - file: docs/03/04_modelica.md
 site:
   options:
     folders: true
