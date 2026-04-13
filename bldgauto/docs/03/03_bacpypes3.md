@@ -21,7 +21,7 @@
     ```
 
 - bacpypes 3 code for checking the received data from controller
-    ```{dropdown} code snippet
+```{dropdown} code snippet
     def parse_notification(self, apdu):
         for value in apdu.listOfValues:
             prop_id = value.propertyIdentifier
@@ -37,10 +37,10 @@
                         raw_any.debug_contents()
                     else:
                         print(f"Raw Object: {raw_any}")
-    ```
+```
 
 - bacpypes3 code for parsing different types of value recieved from controller
-    ```{dropdown} code snippet
+```{dropdown} code snippet
     # def parse_property_identifiers():
         # print(f'THIS IS THE PROPERTY VALUE {property_value}')
         # pv_type_str = type(my_data).__name__
@@ -61,4 +61,4 @@
         #     print(f'this is the character string {property_value.value}')
         #         pv_type_str = type(property_value).__name__
         #         print(pv_type_str)
-    ```
+```
