@@ -1,5 +1,9 @@
 # Bacpypes3 
 
+- unconfirmed and confirmed change of value (COV)
+    - unconfirmed cov, the controller you are subscribed to will send you notification and not ask for receive confirmation. As a result even if your client is down and no longer can receive notification, the controller will still keep the cov subscription active until the lifetime ends.
+    - confirmed cov, the controller you are subscribed to requires you to send a confirmation after you receive it. If no confirmation is sent back to the controller, it will try a 2-3 more times. If still no confirmation is received from the client the subscription will stop.
+
 - If you need a deep debug messages you can add on this option
 ```
 python your_bacpypes3_script.py <arguments> --debug bacpypes3.app.Application
