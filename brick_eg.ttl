@@ -1,0 +1,12 @@
+@prefix bldg: <urn:bldg/> .
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+
+bldg:RTU1 a brick:RTU .
+
+bldg:get_room a brick:Room ;
+    brick:hasPoint bldg:get_room_setpoint .
+
+bldg:suite202_zone a brick:HVAC_Zone .
+
+bldg:get_room_setpoint a brick:Air_Temperature_Setpoint .
+

@@ -29,6 +29,8 @@ project:
       children:
         - file: docs/03/01_opta_wifi.md
         - file: docs/03/02_brick.ipynb
+          children:
+            - file: docs/03/02_1brick_rdf.ipynb
         - file: docs/03/03_bacpypes3.md
         - file: docs/03/04_modelica.md
 site:
