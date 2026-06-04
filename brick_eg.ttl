@@ -1,12 +1,32 @@
 @prefix bldg: <urn:bldg/> .
 @prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix rec: <https://w3id.org/rec#> .
 
-bldg:RTU1 a brick:RTU .
+bldg:RTU1 a brick:RTU ;
+    brick:feeds bldg:suite202_zone .
 
-bldg:get_room a brick:Room ;
-    brick:hasPoint bldg:get_room_setpoint .
+bldg:get_flair_vent a brick:Damper .
 
-bldg:suite202_zone a brick:HVAC_Zone .
+bldg:get_room_occ a brick:Occupancy_Sensor .
+
+bldg:get_room_tstat a brick:Thermostat_Equipment ;
+    brick:hasPoint bldg:get_room_setpoint,
+        bldg:get_room_temperature .
+
+bldg:suite202_tstat a brick:Thermostat_Equipment ;
+    brick:hasPoint bldg:suite202_setpoint,
+        bldg:suite202_temperature .
+
+bldg:get_room a rec:Room .
 
 bldg:get_room_setpoint a brick:Air_Temperature_Setpoint .
+
+bldg:get_room_temperature a brick:Air_Temperature_Sensor .
+
+bldg:suite202_setpoint a brick:Air_Temperature_Setpoint .
+
+bldg:suite202_temperature a brick:Air_Temperature_Sensor .
+
+bldg:suite202_zone a rec:HVACZone ;
+    brick:hasPart bldg:get_room .
 
